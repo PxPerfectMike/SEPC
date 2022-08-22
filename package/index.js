@@ -17,7 +17,8 @@ const errorMessageHandler = {
         noLineStyleDefined: "sepcBorder: no lineStyle defined. To get rid of this message define a lineStyle",
         noTextAlignPlacementDefined: "sepcTextAlign placement not defined, defaulting to 'left'. To get rid of this message, define placement parameter",
         noBackgroundAttachmentDefined: "sepcBackgroundAttachment: no attachment value defined, defaulting to 'fixed'. To get rid of this message, define attachment parameter",
-        noBackgroundPositionDefined: "sepcBackgroundPosition not defined, defaulting to center. To get rid of this message, define position as 'default' in arguments"
+        noBackgroundPositionDefined: "sepcBackgroundPosition not defined, defaulting to center. To get rid of this message, define position parameter",
+        invalidBackgroundPosition: "sepcBackgroundPosition: invalid position value, defaulting to center. To get rid of this message, define valid position parameter",
     },
     consoleMessages: {
         noBackgroundRepeatDefined: "sepcBackgroundRepeat: no repeat value defined, defaulting to 'no-repeat'",
@@ -276,11 +277,11 @@ class backgroundRepeatClass {
 
 class backgroundAttachmentClass {
     //can call without att argument to set to fixed but will warn in console
-    constructor(element, att) {
+    constructor(element, att = "default") {
         this.element = element;
         this.att = att;
         const elements = document.getElementsByClassName(element);
-        if (att === undefined || att === null) {
+        if (att === "default") {
             att = "fixed";
             console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noBackgroundAttachmentDefined);
         }
@@ -292,17 +293,19 @@ class backgroundAttachmentClass {
 
 class backgroundPositionClass {
     //can call without pos argument to set to center
-    constructor(element, pos = "center") {
+    constructor(element, pos = "default") {
         this.element = element;
         this.pos = pos;
         const elements = document.getElementsByClassName(element);
-        if (pos === undefined || pos === null) {
-            pos = "center";
+        if (pos === "default") {
             console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noBackgroundPositionDefined);
         }
         // syntax for background-position is Y X
         //default is center center
         switch (pos) {
+            case "default":
+                pos = "center";
+                break;
             case "topLeft":
                 pos = "top left";
                 break;
@@ -314,9 +317,6 @@ class backgroundPositionClass {
                 break;
             case "centerLeft":
                 pos = "center left";
-                break;
-            case "default":
-                pos = "center";
                 break;
             case "centerRight":
                 pos = "center right";
@@ -331,7 +331,9 @@ class backgroundPositionClass {
                 pos = "bottom right";
                 break;
             default:
+                const invalidPosition = "position parameter '" + pos + "' is invalid. ";
                 pos = "center center";
+                console.warn(sepcWarnTag + invalidPosition + errorMessageHandler.warningMessages.invalidBackgroundPosition);
                 break;
         }
         for (const element of elements) {
@@ -347,8 +349,8 @@ new borderClass("test-divs", "4px", "black", "dashed");
 new textAlignClass("test-divs", "left");
 new backgroundImageClass("test-divs", "https://image.shutterstock.com/image-photo/digital-technology-on-display-php-600w-547572904.jpg");
 new backgroundRepeatClass("test-divs", "no-repeat");
-new backgroundAttachmentClass("test-divs");
-new backgroundPositionClass("test-divs", "topCenter");
+new backgroundAttachmentClass("test-divs", "scroll");
+new backgroundPositionClass("test-divs", "schmoo");
 new backgroundColorClass("body", "pink");
 new borderRadiusClass("test-divs", "rounded");
 new marginClass("test-divs", "100px");
