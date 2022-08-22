@@ -231,12 +231,24 @@ class textAlignClass {
     constructor(element, placement = "default") {
         this.element = element;
         this.placement = placement;
+        const elements = document.getElementsByClassName(element);
+        const alignOptions = ["left", "right", "center", "justify", "initial", "inherit"];
+        const invalidOptionsMessage = sepcWarnTag +
+            " sepcTextAlign property '" + placement + "' is invalid. Please use one of the following options: " +
+            alignOptions[0] + ", " +
+            alignOptions[1] + ", " +
+            alignOptions[2] + ", " +
+            alignOptions[3] + ", " +
+            alignOptions[4] + ", or " +
+            alignOptions[5] + ". Default set to 'left' until defined.";
         // if no placement is defined then it will default to left
         if (placement === "default") {
             console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noTextAlignPlacementDefined);
             placement = "left";
+        } else if (!alignOptions.includes(placement)) {
+            console.error(invalidOptionsMessage);
+            placement = "left";
         }
-        const elements = document.getElementsByClassName(element);
         for (const element of elements) {
             element.style.textAlign = placement;
         }
@@ -265,9 +277,22 @@ class backgroundRepeatClass {
         this.element = element;
         this.rpt = rpt;
         const elements = document.getElementsByClassName(element);
+        const repeatOptions = ["repeat", "repeat-x", "repeat-y", "no-repeat", "space", "round", "inherit", "initial"];
+        const invalidOptionsMessage = sepcWarnTag +
+            " sepcBackgroundRepeat property '" + rpt + "' is invalid. Please use one of the following options: " +
+            repeatOptions[0] + ", " +
+            repeatOptions[1] + ", " +
+            repeatOptions[2] + ", " +
+            repeatOptions[3] + ", " +
+            repeatOptions[4] + ", " +
+            repeatOptions[5] + ", " +
+            repeatOptions[6] + ", or " +
+            repeatOptions[7] + ". Default set to 'no-repeat' until defined.";
         if (rpt === undefined || rpt === null) {
             rpt = "no-repeat";
             console.log(sepcWarnTag + errorMessageHandler.consoleMessages.noBackgroundRepeatDefined);
+        } else if (!repeatOptions.includes(rpt)) {
+            console.error(invalidOptionsMessage);
         }
         for (const element of elements) {
             element.style.backgroundRepeat = rpt;
@@ -293,7 +318,7 @@ class backgroundAttachmentClass {
             att = "scroll";
             console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noBackgroundAttachmentDefined);
         } else if (!attOptions.includes(att)) {
-            console.warn(invalidOptionsMessage)
+            console.error(invalidOptionsMessage)
             att = "scroll";
         }
         for (const element of elements) {
@@ -357,10 +382,10 @@ new backgroundColorClass("test-divs", "purple");
 new colorClass("test-divs", "white");
 new dimensionClass("test-divs", "400px", "400px");
 new borderClass("test-divs", "4px", "black", "dashed");
-new textAlignClass("test-divs", "left");
+new textAlignClass("test-divs", "right");
 new backgroundImageClass("test-divs", "https://image.shutterstock.com/image-photo/digital-technology-on-display-php-600w-547572904.jpg");
-new backgroundRepeatClass("test-divs", "no-repeat");
-new backgroundAttachmentClass("test-divs", "meh");
+new backgroundRepeatClass("test-divs", "repeat");
+new backgroundAttachmentClass("test-divs", "fixed");
 new backgroundPositionClass("test-divs", "topLeft");
 new backgroundColorClass("body", "pink");
 new borderRadiusClass("test-divs", "rounded");
