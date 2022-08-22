@@ -1,3 +1,14 @@
+const errorMessageHandler = {
+    noMarginSize: "S.E.P.C. - sepcMargin: margin size is undefined",
+    noPaddingSize: "S.E.P.C. - sepcPadding: padding size is undefined",
+    noBgColorDefined: `S.E.P.C. - sepcBackgroundColor: no color defined`,
+    noColorDefined: `S.E.P.C. - sepcColor: no color defined`,
+    noDimWidthDefined: `S.E.P.C. - sepcDimension: no width defined`,
+    noDimHeightDefined: `S.E.P.C. - sepcDimension: no height defined`,
+    noDimensionsDefined: `S.E.P.C. - sepcDimension: no width or height defined`,
+    noRadiusDefined: `S.E.P.C. - sepcBorderRadius: no radius size defined`,
+}
+
 class backgroundColorClass {
     constructor(element, clr) {
         this.element = element;
@@ -5,15 +16,15 @@ class backgroundColorClass {
         // if clr is not defined then it is set to transparent
         if (clr === undefined || clr === null) {
             clr = "transparent";
+            console.error(new Error(errorMessageHandler.noBgColorDefined));
         }
         // if the body of the document is targeted then it will set the background color of that element
         if (element === "body") {
             document.body.style.backgroundColor = clr;
-        } else {
-            const elements = document.getElementsByClassName(element);
-            for (const element of elements) {
-                element.style.backgroundColor = clr;
-            }
+        }
+        const elements = document.getElementsByClassName(element);
+        for (const element of elements) {
+            element.style.backgroundColor = clr;
         }
     }
 }
@@ -23,8 +34,9 @@ class colorClass {
         this.element = element;
         this.clr = clr;
         // if no color is input then it will be transparent
-        if (clr === undefined) {
+        if (clr === undefined || clr === null) {
             clr = "transparent";
+            console.error(new Error(errorMessageHandler.noBgColorDefined));
         }
         // if the body of the document is targeted then it will set the color of that element
         if (element === "body") {
@@ -44,6 +56,13 @@ class dimensionClass {
         this.element = element;
         this.width = width;
         this.height = height;
+        if (width === undefined && height === undefined) {
+            console.error(new Error(errorMessageHandler.noDimensionsDefined) + " for sepcDimension width");
+        } else if (height === undefined) {
+            console.error(new Error(errorMessageHandler.noDimHeightDefined) + " for sepcDimension height");
+        } else if (width === undefined) {
+            console.error(new Error(errorMessageHandler.noDimWidthDefined) + " for sepcDimension");
+        }
         const elements = document.getElementsByClassName(element);
         for (const element of elements) {
             element.style.width = width;
@@ -57,66 +76,52 @@ class marginClass {
         this.element = element;
         this.mrgn = mrgn;
         this.side = side;
-        const elements = document.getElementsByClassName(element);
-        //negative margin will revert to 0px
-        if (mrgn < 0 + "px") {
-            mrgn = 0;
+        const sideOptions = {
+            top: "marginTop",
+            bottom: "marginBottom",
+            left: "marginLeft",
+            right: "marginRight"
         }
-        if (side == "top") {
-            for (const element of elements) {
-                element.style.marginTop = mrgn;
-            }
-        } else if (side == "bottom") {
-            for (const element of elements) {
-                element.style.marginBottom = mrgn;
-            }
-        } else if (side == "left") {
-            for (const element of elements) {
-                element.style.marginLeft = mrgn;
-            }
-        } else if (side == "right") {
-            for (const element of elements) {
-                element.style.marginRight = mrgn;
-            }
-            // if a side is not defined then it will set margin on all sides
-        } else if (side === undefined || side === null) {
+        if (mrgn === undefined || mrgn === null) {
+            console.log(new Error(errorMessageHandler.noMarginSize));
+        }
+        const elements = document.getElementsByClassName(element);
+        if (side === undefined || side === null) {
             for (const element of elements) {
                 element.style.margin = mrgn;
+            }
+        } else {
+            for (const element of elements) {
+                element.style[sideOptions[side]] = mrgn;
             }
         }
     }
 }
 
+
 class paddingClass {
-    constructor(element, padding, side) {
+    constructor(element, pdng, side) {
         this.element = element;
-        this.padding = padding;
+        this.pdng = pdng;
         this.side = side;
+        const sideOptions = {
+            top: "paddingTop",
+            bottom: "paddingBottom",
+            left: "paddingLeft",
+            right: "paddingRight"
+        }
+        if (pdng === undefined || pdng === null) {
+            console.log(new Error(errorMessageHandler.noPaddingSize));
+        }
         const elements = document.getElementsByClassName(element);
         //negative padding will revert to 0px
-        if (padding < 0 + "px") {
-            padding = 0;
-        }
-        //if side is not defined, it will apply to all sides
-        if (side == "top") {
+        if (side === undefined || side === null) {
             for (const element of elements) {
-                element.style.paddingTop = padding;
+                element.style.padding = pdng;
             }
-        } else if (side == "bottom") {
+        } else {
             for (const element of elements) {
-                element.style.paddingBottom = padding;
-            }
-        } else if (side == "left") {
-            for (const element of elements) {
-                element.style.paddingLeft = padding;
-            }
-        } else if (side == "right") {
-            for (const element of elements) {
-                element.style.paddingRight = padding;
-            }
-        } else if (side === undefined || side === null) {
-            for (const element of elements) {
-                element.style.padding = padding;
+                element.style[sideOptions[side]] = pdng;
             }
         }
     }
@@ -126,30 +131,42 @@ class borderRadiusClass {
     constructor(element, radius) {
         this.element = element;
         this.radius = radius;
-        if (radius === undefined || radius === null) {
-            radius = "0px";
-        } else if (radius < 0 + "px") {
-            radius = "0px";
-        } else if (radius === "circle") {
-            radius = "50%";
-        } else if (radius === "pill") {
-            radius = "999px";
-        } else if (radius === "square") {
-            radius = "0px";
-        } else if (radius === "rounded") {
-            radius = "8.5px";
-        } else if (radius === "rounded-sm") {
-            radius = "7px";
-        } else if (radius === "rounded-md") {
-            radius = "10px";
-        } else if (radius === "rounded-lg") {
-            radius = "13px";
-        } else if (radius === "rounded-xl") {
-            radius = "16px";
-        } else if (radius === "rounded-2xl") {
-            radius = "19px";
+        switch (radius) {
+            case undefined:
+                console.error(new Error(errorMessageHandler.noRadiusDefined));
+                radius = "0px";
+                break;
+            case radius < 0 + "px":
+                radius = "0px";
+                break;
+            case "circle":
+                radius = "50%";
+                break;
+            case "pill":
+                radius = "999px";
+                break;
+            case "rounded":
+                radius = "8.5px";
+                break;
+            case "rounded-sm":
+                radius = "7px";
+                break;
+            case "rounded-md":
+                radius = "10px";
+                break;
+            case "rounded-lg":
+                radius = "13px";
+                break;
+            case "rounded-xl":
+                radius = "16px";
+                break;
+            case "rounded-2xl":
+                radius = "19px";
+                break;
+            default:
+                radius = "0px";
+                break;
         }
-
         const elements = document.getElementsByClassName(element);
         for (const element of elements) {
             element.style.borderRadius = radius;
@@ -273,16 +290,16 @@ class backgroundPositionClass {
 }
 
 new backgroundColorClass("test-divs", "purple");
-new colorClass("test-divs");
-new dimensionClass("test-divs", "300px", "200px");
-new marginClass("test-divs", "5px", "top");
+new colorClass("test-divs", "white");
+new dimensionClass("test-divs", "100px", "100px");
 new borderClass("test-divs", "10px", "solid", "black");
 new textAlignClass("test-divs", "right");
 new backgroundImageClass("test-divs", "https://image.shutterstock.com/image-photo/digital-technology-on-display-php-600w-547572904.jpg");
 new backgroundRepeatClass("test-divs");
 new backgroundAttachmentClass("test-divs");
 new backgroundPositionClass("test-divs", "bottomLeft");
-new marginClass("outdiv", "100px", "left");
 new paddingClass("outdiv", "100px", "left");
 new backgroundColorClass("body", "pink");
-new borderRadiusClass("test-divs", "rounded");
+new borderRadiusClass("test-divs", "pill");
+new marginClass("test-divs", "100px");
+new marginClass("outdiv", "400px", "left");
