@@ -26,6 +26,7 @@ class colorClass {
         if (clr === undefined) {
             clr = "transparent";
         }
+        // if the body of the document is targeted then it will set the color of that element
         if (element === "body") {
             document.body.style.color = clr;
         } else {
@@ -77,6 +78,7 @@ class marginClass {
             for (const element of elements) {
                 element.style.marginRight = mrgn;
             }
+            // if a side is not defined then it will set margin on all sides
         } else if (side === undefined || side === null) {
             for (const element of elements) {
                 element.style.margin = mrgn;
@@ -124,10 +126,35 @@ class borderRadiusClass {
     constructor(element, radius) {
         this.element = element;
         this.radius = radius;
+        if (radius === undefined || radius === null) {
+            radius = "0px";
+        } else if (radius < 0 + "px") {
+            radius = "0px";
+        } else if (radius === "circle") {
+            radius = "50%";
+        } else if (radius === "pill") {
+            radius = "999px";
+        } else if (radius === "square") {
+            radius = "0px";
+        } else if (radius === "rounded") {
+            radius = "8.5px";
+        } else if (radius === "rounded-sm") {
+            radius = "7px";
+        } else if (radius === "rounded-md") {
+            radius = "10px";
+        } else if (radius === "rounded-lg") {
+            radius = "13px";
+        } else if (radius === "rounded-xl") {
+            radius = "16px";
+        } else if (radius === "rounded-2xl") {
+            radius = "19px";
+        }
+
         const elements = document.getElementsByClassName(element);
         for (const element of elements) {
             element.style.borderRadius = radius;
         }
+
     }
 }
 
@@ -249,7 +276,6 @@ new backgroundColorClass("test-divs", "purple");
 new colorClass("test-divs");
 new dimensionClass("test-divs", "300px", "200px");
 new marginClass("test-divs", "5px", "top");
-new borderRadiusClass("test-divs", "10px");
 new borderClass("test-divs", "10px", "solid", "black");
 new textAlignClass("test-divs", "right");
 new backgroundImageClass("test-divs", "https://image.shutterstock.com/image-photo/digital-technology-on-display-php-600w-547572904.jpg");
@@ -259,3 +285,4 @@ new backgroundPositionClass("test-divs", "bottomLeft");
 new marginClass("outdiv", "100px", "left");
 new paddingClass("outdiv", "100px", "left");
 new backgroundColorClass("body", "pink");
+new borderRadiusClass("test-divs", "rounded");
