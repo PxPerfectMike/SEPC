@@ -16,7 +16,7 @@ const errorMessageHandler = {
         radiusLessThan0: "sepcBorderRadius: radius is less than 0px. To get rid of this message define a radius greater than 0px",
         noLineStyleDefined: "sepcBorder: no lineStyle defined. To get rid of this message define a lineStyle",
         noTextAlignPlacementDefined: "sepcTextAlign placement not defined, defaulting to 'left'. To get rid of this message, define placement parameter",
-        noBackgroundAttachmentDefined: "sepcBackgroundAttachment: no attachment value defined, defaulting to 'fixed'. To get rid of this message, define attachment parameter",
+        noBackgroundAttachmentDefined: "sepcBackgroundAttachment: no attachment value defined, defaulting to 'scroll'. To get rid of this message, define attachment parameter",
         noBackgroundPositionDefined: "sepcBackgroundPosition not defined, defaulting to center. To get rid of this message, define position parameter",
         invalidBackgroundPosition: "sepcBackgroundPosition: invalid position value, defaulting to center. To get rid of this message, define valid position parameter",
     },
@@ -281,9 +281,20 @@ class backgroundAttachmentClass {
         this.element = element;
         this.att = att;
         const elements = document.getElementsByClassName(element);
+        const attOptions = ["fixed", "scroll", "local", "initial", "inherit"];
+        const invalidOptionsMessage = sepcWarnTag +
+            " backgroundAttachment property '" + att + "' is invalid. Please use one of the following options: " +
+            attOptions[0] + ", " +
+            attOptions[1] + ", " +
+            attOptions[2] + ", " +
+            attOptions[3] + ", or " +
+            attOptions[4] + ". Default set to scroll until defined.";
         if (att === "default") {
-            att = "fixed";
+            att = "scroll";
             console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noBackgroundAttachmentDefined);
+        } else if (!attOptions.includes(att)) {
+            console.warn(invalidOptionsMessage)
+            att = "scroll";
         }
         for (const element of elements) {
             element.style.backgroundAttachment = att;
@@ -331,7 +342,7 @@ class backgroundPositionClass {
                 pos = "bottom right";
                 break;
             default:
-                const invalidPosition = "position parameter '" + pos + "' is invalid. ";
+                const invalidPosition = "position property '" + pos + "' is invalid. ";
                 pos = "center center";
                 console.warn(sepcWarnTag + invalidPosition + errorMessageHandler.warningMessages.invalidBackgroundPosition);
                 break;
@@ -349,8 +360,8 @@ new borderClass("test-divs", "4px", "black", "dashed");
 new textAlignClass("test-divs", "left");
 new backgroundImageClass("test-divs", "https://image.shutterstock.com/image-photo/digital-technology-on-display-php-600w-547572904.jpg");
 new backgroundRepeatClass("test-divs", "no-repeat");
-new backgroundAttachmentClass("test-divs", "scroll");
-new backgroundPositionClass("test-divs", "schmoo");
+new backgroundAttachmentClass("test-divs", "meh");
+new backgroundPositionClass("test-divs", "topLeft");
 new backgroundColorClass("body", "pink");
 new borderRadiusClass("test-divs", "rounded");
 new marginClass("test-divs", "100px");
