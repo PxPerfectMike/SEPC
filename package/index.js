@@ -6,12 +6,22 @@ const errorMessageHandler = {
     noDimWidthDefined: "S.E.P.C. - sepcDimension: no width defined",
     noDimHeightDefined: "S.E.P.C. - sepcDimension: no height defined",
     noDimensionsDefined: "S.E.P.C. - sepcDimension: no width or height defined",
-    noRadiusDefined: "S.E.P.C. - sepcBorderRadius: no radius size defined",
     noPositionDefined: "S.E.P.C. - sepcBackgroundPosition: no position value defined",
     noBorderSizeDefined: "S.E.P.C. - sepcBorder: no border size defined",
     noBorderTypeDefined: "S.E.P.C. - sepcBorder: no border type defined",
     invalidBorderSize: "S.E.P.C. - sepcBorder: invalid border size: Cannot be less than 0",
+    warningMessages: {
+        noRadiusDefined: "sepcBorderRadius: radius is set to 0px or is not defined. To get rid of this message define a radius",
+        radiusLessThan0: "sepcBorderRadius: radius is less than 0px. To get rid of this message define a radius greater than 0px",
+        noLineStyleDefined: "sepcBorder: no lineStyle defined. To get rid of this message define a lineStyle",
+
+    }
 }
+
+const sepcWarnTag = "S.E.P.C. - "
+
+// create function that sets the class name for all elements so its not necessary to do it manually in every css call
+// or have it do something like import [name of class] as x and then it can be sepcBackgroundColor(x, "red") or something
 
 class backgroundColorClass {
     constructor(element, clr) {
@@ -132,15 +142,16 @@ class paddingClass {
 }
 
 class borderRadiusClass {
-    constructor(element, radius) {
+    constructor(element, radius = "0px") {
         this.element = element;
         this.radius = radius;
         switch (radius) {
-            case undefined:
-                console.error(new Error(errorMessageHandler.noRadiusDefined));
+            case "0px":
+                console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noRadiusDefined);
                 radius = "0px";
                 break;
             case radius < 0 + "px":
+                console.warn(sepcWarnTag + errorMessageHandler.warningMessages.radiusLessThan0);
                 radius = "0px";
                 break;
             case "circle":
@@ -180,7 +191,7 @@ class borderRadiusClass {
 }
 
 class borderClass {
-    constructor(element, size, color, lineStyle = "solid") {
+    constructor(element, size, color, lineStyle = "default") {
         this.element = element;
         this.size = size;
         this.color = color;
@@ -196,12 +207,9 @@ class borderClass {
         if (color === undefined || color === null) {
             console.error(new Error(errorMessageHandler.noBorderColorDefined));
         }
-        // issue a warning that the linestyle has defaulted to solid
-        if (lineStyle === "solid") {
-            console.warn("S.E.P.C. - sepcBorder lineStyle not defined, defaulting to solid. To get rid of this message, define lineStyle as 'default' in arguments");
-        }
-        // border style defaults to solid
+        // issue a warning that the linestyle has defaulted to solid and set to solid
         if (lineStyle === "default") {
+            console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noLineStyleDefined);
             lineStyle = "solid";
         }
         const elements = document.getElementsByClassName(element);
@@ -211,12 +219,14 @@ class borderClass {
     }
 }
 
-// left off here =======================================================================================
-
 class textAlignClass {
-    constructor(element, placement) {
+    constructor(element, placement = "default") {
         this.element = element;
         this.placement = placement;
+        if (placement === "default") {
+            console.warn("S.E.P.C. - sepcTextAlign placement not defined, defaulting to 'left'. To get rid of this message, define a placement");
+            placement = "left";
+        }
         const elements = document.getElementsByClassName(element);
         for (const element of elements) {
             element.style.textAlign = placement;
@@ -318,12 +328,12 @@ class backgroundPositionClass {
 new backgroundColorClass("test-divs", "purple");
 new colorClass("test-divs", "white");
 new dimensionClass("test-divs", "400px", "400px");
-new borderClass("test-divs", "4px", "black", "default");
-new textAlignClass("test-divs", "right");
+new borderClass("test-divs", "4px", "black");
+new textAlignClass("test-divs", "left");
 new backgroundImageClass("test-divs", "https://image.shutterstock.com/image-photo/digital-technology-on-display-php-600w-547572904.jpg");
 new backgroundRepeatClass("test-divs");
 new backgroundAttachmentClass("test-divs");
 new backgroundPositionClass("test-divs", "topCenter");
 new backgroundColorClass("body", "pink");
-new borderRadiusClass("test-divs", "pill");
+new borderRadiusClass("test-divs");
 new marginClass("test-divs", "100px");
