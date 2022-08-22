@@ -12,6 +12,7 @@ const errorMessageHandler = {
     invalidBorderSize: "S.E.P.C. - sepcBorder: invalid border size: Cannot be less than 0",
     noBackgroundImageDefined: "S.E.P.C. - sepcBackgroundImage: no image value defined",
     warningMessages: {
+        noSizeDefined: "sepcMinMaxSize: no size value defined for min/max size",
         noRadiusDefined: "sepcBorderRadius: radius is set to 0px or is not defined. To get rid of this message define a radius",
         radiusLessThan0: "sepcBorderRadius: radius is less than 0px. To get rid of this message define a radius greater than 0px",
         noLineStyleDefined: "sepcBorder: no lineStyle defined. To get rid of this message define a lineStyle",
@@ -378,6 +379,50 @@ class backgroundPositionClass {
     }
 }
 
+class minMaxSizeClass {
+    constructor(element, minOrMax = "min", widthOrHeight = "width", size) {
+        this.element = element;
+        this.minOrMax = minOrMax;
+        this.widthOrHeight = widthOrHeight;
+        this.size = size;
+        const elements = document.getElementsByClassName(element);
+        const minOrMaxOptions = ["min", "max"];
+        const widthOrHeightOptions = ["width", "height"];
+        const invalidOptionsMessage = sepcWarnTag +
+            " width/height property '" + widthOrHeight + "' is invalid. Please use one of the following options: " +
+            widthOrHeightOptions[0] + " or " +
+            widthOrHeightOptions[1] + ". Default set to 'width' until defined.";
+        if (size === undefined || size === null) {
+            console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noSizeDefined);
+        }
+        if (!widthOrHeightOptions.includes(widthOrHeight)) {
+            console.error(invalidOptionsMessage);
+            widthOrHeight = "width";
+        } else if (!minOrMaxOptions.includes(minOrMax)) {
+            console.error(sepcWarnTag + " min/max property '" + minOrMax + "' is invalid. Please use one of the following options: " +
+                minOrMaxOptions[0] + " or " +
+                minOrMaxOptions[1] + ". Default set to 'min' until defined.");
+            minOrMax = "min";
+        } else if (widthOrHeight === "width" && minOrMax === "min") {
+            for (const element of elements) {
+                element.style.minWidth = size;
+            }
+        } else if (widthOrHeight === "width" && minOrMax === "max") {
+            for (const element of elements) {
+                element.style.maxWidth = size;
+            }
+        } else if (widthOrHeight === "height" && minOrMax === "min") {
+            for (const element of elements) {
+                element.style.minHeight = size;
+            }
+        } else if (widthOrHeight === "height" && minOrMax === "max") {
+            for (const element of elements) {
+                element.style.maxHeight = size;
+            }
+        }
+    }
+}
+
 new backgroundColorClass("test-divs", "purple");
 new colorClass("test-divs", "white");
 new dimensionClass("test-divs", "400px", "400px");
@@ -390,3 +435,4 @@ new backgroundPositionClass("test-divs", "topLeft");
 new backgroundColorClass("body", "pink");
 new borderRadiusClass("test-divs", "rounded");
 new marginClass("test-divs", "100px");
+new minMaxSizeClass("test-divs", "min", "width", "600px");
