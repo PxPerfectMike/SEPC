@@ -1,12 +1,16 @@
 const errorMessageHandler = {
     noMarginSize: "S.E.P.C. - sepcMargin: margin size is undefined",
     noPaddingSize: "S.E.P.C. - sepcPadding: padding size is undefined",
-    noBgColorDefined: `S.E.P.C. - sepcBackgroundColor: no color defined`,
-    noColorDefined: `S.E.P.C. - sepcColor: no color defined`,
-    noDimWidthDefined: `S.E.P.C. - sepcDimension: no width defined`,
-    noDimHeightDefined: `S.E.P.C. - sepcDimension: no height defined`,
-    noDimensionsDefined: `S.E.P.C. - sepcDimension: no width or height defined`,
-    noRadiusDefined: `S.E.P.C. - sepcBorderRadius: no radius size defined`,
+    noBgColorDefined: "S.E.P.C. - sepcBackgroundColor: no color defined",
+    noColorDefined: "S.E.P.C. - sepcColor: no color defined",
+    noDimWidthDefined: "S.E.P.C. - sepcDimension: no width defined",
+    noDimHeightDefined: "S.E.P.C. - sepcDimension: no height defined",
+    noDimensionsDefined: "S.E.P.C. - sepcDimension: no width or height defined",
+    noRadiusDefined: "S.E.P.C. - sepcBorderRadius: no radius size defined",
+    noPositionDefined: "S.E.P.C. - sepcBackgroundPosition: no position value defined",
+    noBorderSizeDefined: "S.E.P.C. - sepcBorder: no border size defined",
+    noBorderTypeDefined: "S.E.P.C. - sepcBorder: no border type defined",
+    invalidBorderSize: "S.E.P.C. - sepcBorder: invalid border size: Cannot be less than 0",
 }
 
 class backgroundColorClass {
@@ -176,17 +180,38 @@ class borderRadiusClass {
 }
 
 class borderClass {
-    constructor(element, size, lineStyle, color) {
+    constructor(element, size, color, lineStyle = "solid") {
         this.element = element;
         this.size = size;
-        this.lineStyle = lineStyle;
         this.color = color;
+        this.lineStyle = lineStyle;
+        if (size === undefined || size === null) {
+            console.error(new Error(errorMessageHandler.noBorderSizeDefined));
+        }
+        // border size cannot be less than 0
+        if (size < 0 + "px") {
+            console.error(new Error(errorMessageHandler.invalidBorderSize));
+        }
+        // border cannot be withour a color
+        if (color === undefined || color === null) {
+            console.error(new Error(errorMessageHandler.noBorderColorDefined));
+        }
+        // issue a warning that the linestyle has defaulted to solid
+        if (lineStyle === "solid") {
+            console.warn("S.E.P.C. - sepcBorder lineStyle not defined, defaulting to solid. To get rid of this message, define lineStyle as 'default' in arguments");
+        }
+        // border style defaults to solid
+        if (lineStyle === "default") {
+            lineStyle = "solid";
+        }
         const elements = document.getElementsByClassName(element);
         for (const element of elements) {
             element.style.border = `${size} ${lineStyle} ${color}`;
         }
     }
 }
+
+// left off here =======================================================================================
 
 class textAlignClass {
     constructor(element, placement) {
@@ -242,12 +267,13 @@ class backgroundAttachmentClass {
 
 class backgroundPositionClass {
     //can call without pos argument to set to center
-    constructor(element, pos) {
+    constructor(element, pos = "center") {
         this.element = element;
         this.pos = pos;
         const elements = document.getElementsByClassName(element);
         if (pos === undefined || pos === null) {
             pos = "center";
+            console.warn("S.E.P.C. - backgroundPosition not defined, defaulting to center. To get rid of this message, define position as 'default' in arguments");
         }
         // syntax for background-position is Y X
         //default is center center
@@ -264,7 +290,7 @@ class backgroundPositionClass {
             case "centerLeft":
                 pos = "center left";
                 break;
-            case "center":
+            case "default":
                 pos = "center";
                 break;
             case "centerRight":
@@ -280,7 +306,7 @@ class backgroundPositionClass {
                 pos = "bottom right";
                 break;
             default:
-                pos = "center";
+                pos = "center center";
                 break;
         }
         for (const element of elements) {
@@ -291,15 +317,13 @@ class backgroundPositionClass {
 
 new backgroundColorClass("test-divs", "purple");
 new colorClass("test-divs", "white");
-new dimensionClass("test-divs", "100px", "100px");
-new borderClass("test-divs", "10px", "solid", "black");
+new dimensionClass("test-divs", "400px", "400px");
+new borderClass("test-divs", "4px", "black", "default");
 new textAlignClass("test-divs", "right");
 new backgroundImageClass("test-divs", "https://image.shutterstock.com/image-photo/digital-technology-on-display-php-600w-547572904.jpg");
 new backgroundRepeatClass("test-divs");
 new backgroundAttachmentClass("test-divs");
-new backgroundPositionClass("test-divs", "bottomLeft");
-new paddingClass("outdiv", "100px", "left");
+new backgroundPositionClass("test-divs", "topCenter");
 new backgroundColorClass("body", "pink");
 new borderRadiusClass("test-divs", "pill");
 new marginClass("test-divs", "100px");
-new marginClass("outdiv", "400px", "left");
