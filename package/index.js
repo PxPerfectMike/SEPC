@@ -1,10 +1,19 @@
 class backgroundColorClass {
-    constructor(element, color) {
+    constructor(element, clr) {
         this.element = element;
-        this.color = color;
-        const elements = document.getElementsByClassName(element);
-        for (const element of elements) {
-            element.style.backgroundColor = color;
+        this.clr = clr;
+        // if clr is not defined then it is set to transparent
+        if (clr === undefined || clr === null) {
+            clr = "transparent";
+        }
+        // if the body of the document is targeted then it will set the background color of that element
+        if (element === "body") {
+            document.body.style.backgroundColor = clr;
+        } else {
+            const elements = document.getElementsByClassName(element);
+            for (const element of elements) {
+                element.style.backgroundColor = clr;
+            }
         }
     }
 }
@@ -249,3 +258,4 @@ new backgroundAttachmentClass("test-divs");
 new backgroundPositionClass("test-divs", "bottomLeft");
 new marginClass("outdiv", "100px", "left");
 new paddingClass("outdiv", "100px", "left");
+new backgroundColorClass("body", "pink");
