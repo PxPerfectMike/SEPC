@@ -7,14 +7,20 @@ const errorMessageHandler = {
     noDimHeightDefined: "S.E.P.C. - sepcDimension: no height defined",
     noDimensionsDefined: "S.E.P.C. - sepcDimension: no width or height defined",
     noPositionDefined: "S.E.P.C. - sepcBackgroundPosition: no position value defined",
-    noBorderSizeDefined: "S.E.P.C. - sepcBorder: no border size defined",
+    noBorderSizeDefined: "S.E.P.C. - sepcBorder: no border size defined, defaulting to 1px",
     noBorderTypeDefined: "S.E.P.C. - sepcBorder: no border type defined",
     invalidBorderSize: "S.E.P.C. - sepcBorder: invalid border size: Cannot be less than 0",
+    noBackgroundImageDefined: "S.E.P.C. - sepcBackgroundImage: no image value defined",
     warningMessages: {
         noRadiusDefined: "sepcBorderRadius: radius is set to 0px or is not defined. To get rid of this message define a radius",
         radiusLessThan0: "sepcBorderRadius: radius is less than 0px. To get rid of this message define a radius greater than 0px",
         noLineStyleDefined: "sepcBorder: no lineStyle defined. To get rid of this message define a lineStyle",
-
+        noTextAlignPlacementDefined: "sepcTextAlign placement not defined, defaulting to 'left'. To get rid of this message, define placement parameter",
+        noBackgroundAttachmentDefined: "sepcBackgroundAttachment: no attachment value defined, defaulting to 'fixed'. To get rid of this message, define attachment parameter",
+        noBackgroundPositionDefined: "sepcBackgroundPosition not defined, defaulting to center. To get rid of this message, define position as 'default' in arguments"
+    },
+    consoleMessages: {
+        noBackgroundRepeatDefined: "sepcBackgroundRepeat: no repeat value defined, defaulting to 'no-repeat'",
     }
 }
 
@@ -198,6 +204,7 @@ class borderClass {
         this.lineStyle = lineStyle;
         if (size === undefined || size === null) {
             console.error(new Error(errorMessageHandler.noBorderSizeDefined));
+            size = "1px";
         }
         // border size cannot be less than 0
         if (size < 0 + "px") {
@@ -223,8 +230,9 @@ class textAlignClass {
     constructor(element, placement = "default") {
         this.element = element;
         this.placement = placement;
+        // if no placement is defined then it will default to left
         if (placement === "default") {
-            console.warn("S.E.P.C. - sepcTextAlign placement not defined, defaulting to 'left'. To get rid of this message, define a placement");
+            console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noTextAlignPlacementDefined);
             placement = "left";
         }
         const elements = document.getElementsByClassName(element);
@@ -235,9 +243,14 @@ class textAlignClass {
 }
 
 class backgroundImageClass {
+    // take care of gradient and image distinction in functional function code later... manual url() distinction or designate type in constructor?
     constructor(element, image) {
         this.element = element;
         this.image = image;
+        // if no image is defined then it will default throw error and break the site... maybe default to a placeholder image?
+        if (image === undefined || image === null) {
+            throw new Error(errorMessageHandler.noBackgroundImageDefined);
+        }
         const elements = document.getElementsByClassName(element);
         for (const element of elements) {
             element.style.backgroundImage = `url(${image})`;
@@ -253,6 +266,7 @@ class backgroundRepeatClass {
         const elements = document.getElementsByClassName(element);
         if (rpt === undefined || rpt === null) {
             rpt = "no-repeat";
+            console.log(sepcWarnTag + errorMessageHandler.consoleMessages.noBackgroundRepeatDefined);
         }
         for (const element of elements) {
             element.style.backgroundRepeat = rpt;
@@ -261,13 +275,14 @@ class backgroundRepeatClass {
 }
 
 class backgroundAttachmentClass {
-    //can call without att argument to set to fixed
+    //can call without att argument to set to fixed but will warn in console
     constructor(element, att) {
         this.element = element;
         this.att = att;
         const elements = document.getElementsByClassName(element);
         if (att === undefined || att === null) {
             att = "fixed";
+            console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noBackgroundAttachmentDefined);
         }
         for (const element of elements) {
             element.style.backgroundAttachment = att;
@@ -283,7 +298,7 @@ class backgroundPositionClass {
         const elements = document.getElementsByClassName(element);
         if (pos === undefined || pos === null) {
             pos = "center";
-            console.warn("S.E.P.C. - backgroundPosition not defined, defaulting to center. To get rid of this message, define position as 'default' in arguments");
+            console.warn(sepcWarnTag + errorMessageHandler.warningMessages.noBackgroundPositionDefined);
         }
         // syntax for background-position is Y X
         //default is center center
@@ -328,12 +343,12 @@ class backgroundPositionClass {
 new backgroundColorClass("test-divs", "purple");
 new colorClass("test-divs", "white");
 new dimensionClass("test-divs", "400px", "400px");
-new borderClass("test-divs", "4px", "black");
+new borderClass("test-divs", "4px", "black", "dashed");
 new textAlignClass("test-divs", "left");
 new backgroundImageClass("test-divs", "https://image.shutterstock.com/image-photo/digital-technology-on-display-php-600w-547572904.jpg");
-new backgroundRepeatClass("test-divs");
+new backgroundRepeatClass("test-divs", "no-repeat");
 new backgroundAttachmentClass("test-divs");
 new backgroundPositionClass("test-divs", "topCenter");
 new backgroundColorClass("body", "pink");
-new borderRadiusClass("test-divs");
+new borderRadiusClass("test-divs", "rounded");
 new marginClass("test-divs", "100px");
