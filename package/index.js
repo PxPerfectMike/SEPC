@@ -10,18 +10,26 @@ class backgroundColorClass {
 }
 
 class colorClass {
-    constructor(element, color) {
+    constructor(element, clr) {
         this.element = element;
-        this.color = color;
-        const elements = document.getElementsByClassName(element);
-        for (const element of elements) {
-            element.style.color = color;
-
+        this.clr = clr;
+        // if no color is input then it will be transparent
+        if (clr === undefined) {
+            clr = "transparent";
+        }
+        if (element === "body") {
+            document.body.style.color = clr;
+        } else {
+            const elements = document.getElementsByClassName(element);
+            for (const element of elements) {
+                element.style.color = clr;
+            }
         }
     }
 }
 
 class dimensionClass {
+    // dimensionClass is used to set basic size parameters for the element
     constructor(element, width, height) {
         this.element = element;
         this.width = width;
@@ -78,6 +86,7 @@ class paddingClass {
         if (padding < 0 + "px") {
             padding = 0;
         }
+        //if side is not defined, it will apply to all sides
         if (side == "top") {
             for (const element of elements) {
                 element.style.paddingTop = padding;
@@ -101,6 +110,7 @@ class paddingClass {
         }
     }
 }
+
 class borderRadiusClass {
     constructor(element, radius) {
         this.element = element;
@@ -227,7 +237,7 @@ class backgroundPositionClass {
 }
 
 new backgroundColorClass("test-divs", "purple");
-new colorClass("test-divs", "orange");
+new colorClass("test-divs");
 new dimensionClass("test-divs", "300px", "200px");
 new marginClass("test-divs", "5px", "top");
 new borderRadiusClass("test-divs", "10px");
@@ -238,4 +248,4 @@ new backgroundRepeatClass("test-divs");
 new backgroundAttachmentClass("test-divs");
 new backgroundPositionClass("test-divs", "bottomLeft");
 new marginClass("outdiv", "100px", "left");
-
+new paddingClass("outdiv", "100px", "left");
