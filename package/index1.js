@@ -5,13 +5,26 @@
 const sepcWarnTag = 'S.E.P.C. - ';
 
 const errorMessageHandler = {
-	noMarginSize: 'S.E.P.C. - sepcMargin: margin size is undefined',
-	noPaddingSize: 'S.E.P.C. - sepcPadding: padding size is undefined',
-	noBgColorDefined: 'S.E.P.C. - sepcBackgroundColor: no color defined',
-	noColorDefined: 'S.E.P.C. - sepcColor: no color defined',
-	noDimWidthDefined: 'S.E.P.C. - sepcDimension: no width defined',
-	noDimHeightDefined: 'S.E.P.C. - sepcDimension: no height defined',
-	noDimensionsDefined: 'S.E.P.C. - sepcDimension: no width or height defined',
+	negativeMarginSize:
+		sepcWarnTag +
+		'Negative margin size detected. Margin size must be a positive number.',
+	noNegativePadding: sepcWarnTag + 'Negative padding values are not allowed.',
+	noMarginSize:
+		sepcWarnTag +
+		'No margin size detected. Margin size must be a positive number.',
+	noPaddingSize:
+		sepcWarnTag +
+		'No padding size detected. Padding size must be a positive number.',
+	noBgColorDefined:
+		sepcWarnTag +
+		'No background color defined. Background color has been set to transparent.',
+	noColorDefined:
+		sepcWarnTag + 'No color defined. Color has been set to black.',
+	noDimWidthDefined:
+		sepcWarnTag + 'No width defined. Width has been set to "auto".',
+	noDimHeightDefined:
+		sepcWarnTag + 'No height defined. Height has been set to "auto".',
+	noDimensionsDefined: sepcWarnTag + 'No dimensions defined.',
 	noPositionDefined:
 		'S.E.P.C. - sepcBackgroundPosition: no position value defined',
 	noBorderSizeDefined:
@@ -48,16 +61,16 @@ const errorMessageHandler = {
 
 class backgroundColorClass {
 	// backgroundColor sets the background color of an element
-	//  if clr is not defined then it is set to transparent
-	// Format: sepcBackgroundColor(element, color)
-	// Example: sepcBackgroundColor('exampleDiv', 'red')
-	// Example: sepcBackgroundColor('exampleDiv', '#ff0000')
-	// Example: sepcBackgroundColor('exampleDiv', 'rgb(255, 0, 0)')
-	// Example: sepcBackgroundColor('exampleDiv', 'rgba(255, 0, 0, 0.5)')
-	// Example: sepcBackgroundColor('exampleDiv', 'hsl(0, 100%, 50%)')
-	// Example: sepcBackgroundColor('exampleDiv', 'hsla(0, 100%, 50%, 0.5)')
-	// Example: sepcBackgroundColor('exampleDiv', 'transparent')
-	constructor(element, clr = 'null') {
+	//  if clr is not defined then it is set to transparent and an error message will be displayed in the console
+	// Format: sepcBgColor(element, color)
+	// Example: sepcBgColor('exampleDiv', 'red')
+	// Example: sepcBgColor('exampleDiv', '#ff0000')
+	// Example: sepcBgColor('exampleDiv', 'rgb(255, 0, 0)')
+	// Example: sepcBgColor('exampleDiv', 'rgba(255, 0, 0, 0.5)')
+	// Example: sepcBgColor('exampleDiv', 'hsl(0, 100%, 50%)')
+	// Example: sepcBgColor('exampleDiv', 'hsla(0, 100%, 50%, 0.5)')
+	// Example: sepcBgColor('exampleDiv', 'transparent')
+	constructor(element, clr = null) {
 		this.element = element;
 		this.clr = clr;
 		//  if clr is not defined then it is set to transparent
@@ -72,6 +85,147 @@ class backgroundColorClass {
 		const elements = document.getElementsByClassName(element);
 		for (const element of elements) {
 			element.style.backgroundColor = clr;
+		}
+	}
+}
+
+class colorClass {
+	// The color property specifies the color of text within an element
+	// Format: sepcColor(element, color)
+	// If the color is not defined then it is set to black(#000000) and an error message will be displayed in the console
+	// Example: sepcColor('exampleDiv', 'red')
+	// Example: sepcColor('exampleDiv', '#ff0000')
+	constructor(element, clr = null) {
+		this.element = element;
+		this.clr = clr;
+		//  if no color is input then it will be transparent
+		if (clr === null) {
+			clr = '#000000';
+			console.error(new Error(errorMessageHandler.noBgColorDefined));
+		}
+		//  if the body of the document is targeted then it will set the color of that element
+		if (element === 'body') {
+			document.body.style.color = clr;
+		} else {
+			const elements = document.getElementsByClassName(element);
+			for (const element of elements) {
+				element.style.color = clr;
+			}
+		}
+	}
+}
+
+class dimensionClass {
+	//  dimensionClass is used to set basic height and width size parameters for the element
+	// the parameters passed in have to be element class name, width, and height parameters respectively
+	// if there it no paramete passed into the width or height then it will be set to auto and an error message will be displayed in the console
+	// The width and height of sepcDimension does not include padding, borders, or margins
+	// Format: sepcDimension(element, width, height)
+	// Example: sepcDimension('exampleDiv', '100px', '100px')
+	// Example: sepcDimension('exampleDiv', '100%', '100%')
+	constructor(element, width = null, height = null) {
+		this.element = element;
+		this.width = width;
+		this.height = height;
+		if (width === null && height === null) {
+			console.error(
+				new Error(errorMessageHandler.noDimensionsDefined) +
+					' for sepcDimension width'
+			);
+		} else if (height === null) {
+			height = 'auto';
+			console.error(
+				new Error(errorMessageHandler.noDimHeightDefined) +
+					' for sepcDimension height'
+			);
+		} else if (width === null) {
+			width = 'auto';
+			console.error(
+				new Error(errorMessageHandler.noDimWidthDefined) + ' for sepcDimension'
+			);
+		}
+		const elements = document.getElementsByClassName(element);
+		for (const element of elements) {
+			element.style.width = width;
+			element.style.height = height;
+		}
+	}
+}
+
+class marginClass {
+	//  marginClass is used to set basic margin parameters for the element
+	// the parameters passed in have to be element class name, size, and which side to apply it to respectively
+	// is no side parameter is passed in it the size will be applied to all sides
+	// Format: sepcMargin(element, size, side)
+	// Example: sepcMargin('exampleDiv', '10px', 'top')
+	// Example: sepcMargin('exampleDiv', '10px', 'bottom')
+	// Example: sepcMargin('exampleDiv', '10px') - applies to all sides
+
+	constructor(element, mrgn = undefined, side = null) {
+		this.element = element;
+		this.mrgn = mrgn;
+		this.side = side;
+		const sideOptions = {
+			top: 'marginTop',
+			bottom: 'marginBottom',
+			left: 'marginLeft',
+			right: 'marginRight',
+		};
+		if (mrgn === undefined) {
+			console.log(new Error(errorMessageHandler.noMarginSize));
+		}
+		if (mrgn < 0) {
+			console.log(new Error(errorMessageHandler.negativeMarginSize));
+			mrgn = 0;
+		}
+		const elements = document.getElementsByClassName(element);
+		if (side === null) {
+			for (const element of elements) {
+				element.style.margin = mrgn;
+			}
+		} else {
+			for (const element of elements) {
+				element.style[sideOptions[side]] = mrgn;
+			}
+		}
+	}
+}
+
+class paddingClass {
+	//  paddingClass is used to set basic padding parameters for the element
+	// the parameters passed in have to be element class name, size, and which side to apply it to respectively
+	// is no side parameter is passed in it the size will be applied to all sides
+	// Format: sepcPadding(element, size, side)
+	// Example: sepcPadding('exampleDiv', '10px', 'top')
+	// Example: sepcPadding('exampleDiv', '10px', 'bottom')
+	// Example: sepcPadding('exampleDiv', '10px') - applies to all sides
+	constructor(element, pdng = undefined, side = null) {
+		this.element = element;
+		this.pdng = pdng;
+		this.side = side;
+		const sideOptions = {
+			top: 'paddingTop',
+			bottom: 'paddingBottom',
+			left: 'paddingLeft',
+			right: 'paddingRight',
+		};
+		if (pdng === undefined) {
+			console.log(new Error(errorMessageHandler.noPaddingSize));
+		}
+		if (pdng < 0) {
+			console.log(new Error(errorMessageHandler.noNegativePadding));
+			pdng = 0;
+		}
+		const elements = document.getElementsByClassName(element);
+		// negative padding will revert to 0px
+		if (side === null) {
+			for (const element of elements) {
+				element.style.padding = pdng;
+			}
+		} else {
+			for (const element of elements) {
+				element.style[sideOptions[side]] = pdng;
+			}
 		}
 	}
 }
