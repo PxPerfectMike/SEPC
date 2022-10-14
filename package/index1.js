@@ -229,3 +229,73 @@ class paddingClass {
 		}
 	}
 }
+
+class borderRadiusClass {
+	//  borderRadiusClass is used to set basic border radius parameters for the element
+	// the parameters passed in have to be element class name, and radius size represented in px, rem, em, etc.
+	// if no radius is defined then it will default to 0px smd will output a warning to the console
+	// is also accepts a named shapes that are defined SEPC
+	// circle adds a 50% border radius. if the element is a square using this setting will result in the element being styled as a circle
+	// rounded adds a 5px border radius
+	// pill adds a 9999px border radius resulting in a pill shape for a rectangle shaped element
+	// rounded-sm adds a 2px border radius
+	// rounded-md adds a 7px border radius
+	// rounded-lg adds a 10px border radius
+	// rounded-xl adds a 15px border radius
+	// rounded-2xl adds a 19px border radius
+	// Format: sepcBorderRadius(element, radius)
+	// Example: sepcBorderRadius('exampleDiv', '10px')
+	// Example: sepcBorderRadius('exampleDiv', 'circle')
+	// Example: sepcBorderRadius('exampleDiv', 'rounded')
+	// Example: sepcBorderRadius('exampleDiv', 'pill')
+	// Example: sepcBorderRadius('exampleDiv', '2rem')
+	constructor(element, radius = '0px') {
+		this.element = element;
+		this.radius = radius;
+		switch (radius) {
+			case '0px':
+				console.warn(
+					sepcWarnTag + errorMessageHandler.warningMessages.noRadiusDefined
+				);
+				radius = '0px';
+				break;
+			case radius < 0 + 'px':
+				console.warn(
+					sepcWarnTag + errorMessageHandler.warningMessages.radiusLessThan0
+				);
+				radius = '0px';
+				break;
+			case 'circle':
+				radius = '50%';
+				break;
+			case 'pill':
+				radius = '999px';
+				break;
+			case 'rounded':
+				radius = '8.5px';
+				break;
+			case 'rounded-sm':
+				radius = '2px';
+				break;
+			case 'rounded-md':
+				radius = '7px';
+				break;
+			case 'rounded-lg':
+				radius = '10px';
+				break;
+			case 'rounded-xl':
+				radius = '15px';
+				break;
+			case 'rounded-2xl':
+				radius = '19px';
+				break;
+			default:
+				radius = '0px';
+				break;
+		}
+		const elements = document.getElementsByClassName(element);
+		for (const element of elements) {
+			element.style.borderRadius = radius;
+		}
+	}
+}
