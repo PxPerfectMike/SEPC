@@ -299,3 +299,47 @@ class borderRadiusClass {
 		}
 	}
 }
+
+class borderClass {
+	//  borderClass is used to set basic border parameters for the element
+	// the parameters passed in have to be element class name, and border size represented in px, rem, em, etc.
+	// if no border size is defined then it will default to 1px and will output an error to the console
+	// If no line style is defined then it will default to solid and will output an error to the console
+	// If no color is defined then it will default to black and will output an error to the console
+	// Format: sepcBorder(element, size, style)
+	// Example: sepcBorder('exampleDiv', '2px', 'solid')
+	// Example: sepcBorder('exampleDiv', '3px', 'dashed')
+	// Example: sepcBorder('exampleDiv', '5px', 'dotted')
+	// Example: sepcBorder('exampleDiv', '1px', 'double')
+
+	constructor(element, size = undefined, color = null, lineStyle = null) {
+		this.element = element;
+		this.size = size;
+		this.color = color;
+		this.lineStyle = lineStyle;
+		if (size === undefined) {
+			console.error(new Error(errorMessageHandler.noBorderSizeDefined));
+			size = '1px';
+		}
+		//  border size cannot be less than 0
+		if (size < 0 + 'px') {
+			console.error(new Error(errorMessageHandler.invalidBorderSize));
+		}
+		//  border cannot be withour a color
+		if (color === null) {
+			console.error(new Error(errorMessageHandler.noBorderColorDefined));
+			color = '#000000';
+		}
+		//  border cannot be withour a line style
+		if (lineStyle === null) {
+			console.warn(
+				sepcWarnTag + errorMessageHandler.warningMessages.noLineStyleDefined
+			);
+			lineStyle = 'solid';
+		}
+		const elements = document.getElementsByClassName(element);
+		for (const element of elements) {
+			element.style.border = `${size} ${lineStyle} ${color}`;
+		}
+	}
+}
