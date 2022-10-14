@@ -1,3 +1,5 @@
+// Error message handler
+// object key: value pairs
 const errorMessageHandler = {
 	noMarginSize: 'S.E.P.C. - sepcMargin: margin size is undefined',
 	noPaddingSize: 'S.E.P.C. - sepcPadding: padding size is undefined',
@@ -39,13 +41,23 @@ const errorMessageHandler = {
 			"sepcBackgroundRepeat: no repeat value defined, defaulting to 'no-repeat'",
 	},
 };
-
+// A tag to append to dynamic warnings
 const sepcWarnTag = 'S.E.P.C. - ';
 
 //  create function that sets the class name for all elements so its not necessary to do it manually in every css call
 //  or have it do something like import [name of class] as x and then it can be sepcBackgroundColor(x, "red") or something
 
 class backgroundColorClass {
+	// backgroundColor sets the background color of an element
+	//  if clr is not defined then it is set to transparent
+	// Format: sepcBackgroundColor(element, color)
+	// Example: sepcBackgroundColor('exampleDiv', 'red')
+	// Example: sepcBackgroundColor('exampleDiv', '#ff0000')
+	// Example: sepcBackgroundColor('exampleDiv', 'rgb(255, 0, 0)')
+	// Example: sepcBackgroundColor('exampleDiv', 'rgba(255, 0, 0, 0.5)')
+	// Example: sepcBackgroundColor('exampleDiv', 'hsl(0, 100%, 50%)')
+	// Example: sepcBackgroundColor('exampleDiv', 'hsla(0, 100%, 50%, 0.5)')
+	// Example: sepcBackgroundColor('exampleDiv', 'transparent')
 	constructor(element, clr) {
 		this.element = element;
 		this.clr = clr;
@@ -88,6 +100,7 @@ class colorClass {
 
 class dimensionClass {
 	//  dimensionClass is used to set basic size parameters for the element
+	// the parameters passed in have to be element class name, width, and height
 	constructor(element, width, height) {
 		this.element = element;
 		this.width = width;
@@ -116,6 +129,8 @@ class dimensionClass {
 }
 
 class marginClass {
+	//  marginClass is used to set basic margin parameters for the element
+	// the parameters passed in have to be element class name, size, and which side to apply it to
 	constructor(element, mrgn, side) {
 		this.element = element;
 		this.mrgn = mrgn;
@@ -143,6 +158,8 @@ class marginClass {
 }
 
 class paddingClass {
+	//  paddingClass is used to set basic margin parameters for the element
+	// the parameters passed in have to be element class name, size, and which side to apply it to
 	constructor(element, pdng, side) {
 		this.element = element;
 		this.pdng = pdng;
@@ -171,6 +188,18 @@ class paddingClass {
 }
 
 class borderRadiusClass {
+	//  borderRadiusClass is used to set basic border radius parameters for the element
+	// the parameters passed in have to be element class name, and radius size represented in px, rem, em, etc.
+	// if no radius is defined then it will default to 0px smd will output a warning to the console
+	// is also accepts a named shapes that are defined SEPC
+	// circle adds a 50% border radius. if the element is a square using this setting will result in the element being styled as a circle
+	// rounded adds a 5px border radius
+	// pill adds a 9999px border radius resulting in a pill shape for a rectangle shaped element
+	// rounded-sm adds a 2px border radius
+	//rounded-md adds a 7px border radius
+	//rounded-lg adds a 10px border radius
+	//rounded-xl adds a 15px border radius
+	//rounded-2xl adds a 19px border radius
 	constructor(element, radius = '0px') {
 		this.element = element;
 		this.radius = radius;
@@ -197,16 +226,16 @@ class borderRadiusClass {
 				radius = '8.5px';
 				break;
 			case 'rounded-sm':
-				radius = '7px';
+				radius = '2px';
 				break;
 			case 'rounded-md':
-				radius = '10px';
+				radius = '7px';
 				break;
 			case 'rounded-lg':
-				radius = '13px';
+				radius = '10px';
 				break;
 			case 'rounded-xl':
-				radius = '16px';
+				radius = '15px';
 				break;
 			case 'rounded-2xl':
 				radius = '19px';
@@ -223,6 +252,10 @@ class borderRadiusClass {
 }
 
 class borderClass {
+	//  borderClass is used to set basic border parameters for the element
+	// the parameters passed in have to be element class name, and border size represented in px, rem, em, etc.
+	// if no border size is defined then it will default to 1px and will output an error to the console
+	// If no line style is defined then it will default to solid and will output an error to the console
 	constructor(element, size, color, lineStyle = 'default') {
 		this.element = element;
 		this.size = size;
@@ -254,6 +287,10 @@ class borderClass {
 	}
 }
 class outlineClass {
+	//  outlineClass is used to set basic outline parameters for the element
+	// the parameters passed in have to be element class name, and outline size represented in px, rem, em, etc., then color, and then line style
+	// if no outline size is defined then it will default to 1px and will output an error to the console
+	// if no linestyle is defined then it will default to solid
 	constructor(element, size, color, lineStyle = 'default') {
 		this.element = element;
 		this.size = size;
@@ -286,6 +323,10 @@ class outlineClass {
 }
 
 class textAlignClass {
+	//  textAlignClass is used to set the text alignment for the element
+	// the parameters passed in have to be element class name, and text alignment
+	// if no text alignment is defined then it will default to left and will output an error to the console
+	// text alignment can be left, right, center, justify, initial, and inherit
 	constructor(element, placement = 'default') {
 		this.element = element;
 		this.placement = placement;
@@ -349,7 +390,10 @@ class backgroundImageClass {
 }
 
 class backgroundRepeatClass {
-	// can call without rpt argument to set to no-repeat
+	//  backgroundRepeatClass is used to set the background repeat for the element
+	// the parameters passed in have to be element class name, and background repeat option
+	// if no background repeat option is defined then it will default to no-repeat and will output an error to the console
+	// background repeat options can be repeat, repeat-x, repeat-y, no-repeat, space, round, initial, and inherit
 	constructor(element, rpt) {
 		this.element = element;
 		this.rpt = rpt;
@@ -361,8 +405,8 @@ class backgroundRepeatClass {
 			'no-repeat',
 			'space',
 			'round',
-			'inherit',
 			'initial',
+			'inherit',
 		];
 		const invalidOptionsMessage =
 			sepcWarnTag +
@@ -401,7 +445,8 @@ class backgroundRepeatClass {
 }
 
 class backgroundAttachmentClass {
-	// can call without att argument to set to fixed but will warn in console
+	// The backgroundAttachmentClass sets whether a background image scrolls with the rest of the page, or is fixed.
+	// can be called without attachment argument to set to default - fixed, but it will throw an error in the console
 	constructor(element, att = 'default') {
 		this.element = element;
 		this.att = att;
@@ -439,7 +484,10 @@ class backgroundAttachmentClass {
 }
 
 class backgroundPositionClass {
+	// The backgroundPositionClass sets the starting position of a background image.
 	// can call without pos argument to set to center
+	// the position argument can be center, topLeft, topCenter, topRight, centerLeft, centerRight, bottomLeft, bottomCenter, or bottomRight
+	// it also accepts custom positions in the form of 'x y' where x and y are numbers or percentages in the same format
 	constructor(element, pos = 'default') {
 		this.element = element;
 		this.pos = pos;
@@ -497,7 +545,18 @@ class backgroundPositionClass {
 }
 
 class minMaxSizeClass {
-	constructor(element, minOrMax = 'min', widthOrHeight = 'width', size) {
+	// the minMaxSizeClass sets the minimum or maximum width or height of an element
+	// if there is no min or max distinction for the minmax argument it defaults to min
+	// if no size argument is given is defaults to null and will throw a warning in the console
+	// Format: minMaxSize(element, min or max, size)
+	// Example: minMaxSize('myElement', 'min', '100px')
+	constructor(
+		element,
+		minOrMax = 'min',
+		widthOrHeight = 'width',
+		size = 'null'
+	) {
+		// need to add error to handler for no size argument
 		this.element = element;
 		this.minOrMax = minOrMax;
 		this.widthOrHeight = widthOrHeight;
@@ -555,7 +614,10 @@ class minMaxSizeClass {
 }
 
 class widthHeightClass {
-	constructor(element, widthOrHeight = 'width', size) {
+	// the widthHeightClass sets the width or height of an element
+	// if no width or height argument is given is defaults to width
+	// if no size argument is given is defaults to null and will throw a warning in the console
+	constructor(element, widthOrHeight = 'width', size = 'null') {
 		this.element = element;
 		this.widthOrHeight = widthOrHeight;
 		this.size = size;
@@ -570,7 +632,7 @@ class widthHeightClass {
 			' or ' +
 			widthOrHeightOptions[1] +
 			". Default set to 'width' until defined.";
-		if (size === undefined || size === null) {
+		if (size === null) {
 			console.warn(
 				sepcWarnTag + errorMessageHandler.warningMessages.noSizeDefined
 			);
