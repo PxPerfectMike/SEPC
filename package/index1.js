@@ -5,6 +5,14 @@
 const sepcWarnTag = 'S.E.P.C. - ';
 
 const errorMessageHandler = {
+	noOutlineStyleDefined:
+		sepcWarnTag + 'No outline style defined. Defaulting to solid.',
+	noOutlineColorDefined:
+		sepcWarnTag +
+		'No outline color defined. Outline color has been set to transparent.',
+	invalidOutlineSize:
+		sepcWarnTag + 'Invalid outline size. Please use a number greater than 0.',
+
 	negativeMarginSize:
 		sepcWarnTag +
 		'Negative margin size detected. Margin size must be a positive number.',
@@ -70,11 +78,11 @@ class backgroundColorClass {
 	// Example: sepcBgColor('exampleDiv', 'hsl(0, 100%, 50%)')
 	// Example: sepcBgColor('exampleDiv', 'hsla(0, 100%, 50%, 0.5)')
 	// Example: sepcBgColor('exampleDiv', 'transparent')
-	constructor(element, clr = null) {
+	constructor(element, clr = undefined) {
 		this.element = element;
 		this.clr = clr;
 		//  if clr is not defined then it is set to transparent
-		if (clr === null) {
+		if (clr === undefined) {
 			clr = 'transparent';
 			console.error(new Error(errorMessageHandler.noBgColorDefined));
 		}
@@ -95,11 +103,11 @@ class colorClass {
 	// If the color is not defined then it is set to black(#000000) and an error message will be displayed in the console
 	// Example: sepcColor('exampleDiv', 'red')
 	// Example: sepcColor('exampleDiv', '#ff0000')
-	constructor(element, clr = null) {
+	constructor(element, clr = undefined) {
 		this.element = element;
 		this.clr = clr;
 		//  if no color is input then it will be transparent
-		if (clr === null) {
+		if (clr === undefined) {
 			clr = '#000000';
 			console.error(new Error(errorMessageHandler.noBgColorDefined));
 		}
@@ -123,22 +131,22 @@ class dimensionClass {
 	// Format: sepcDimension(element, width, height)
 	// Example: sepcDimension('exampleDiv', '100px', '100px')
 	// Example: sepcDimension('exampleDiv', '100%', '100%')
-	constructor(element, width = null, height = null) {
+	constructor(element, width = undefined, height = undefined) {
 		this.element = element;
 		this.width = width;
 		this.height = height;
-		if (width === null && height === null) {
+		if (width === undefined && height === undefined) {
 			console.error(
 				new Error(errorMessageHandler.noDimensionsDefined) +
 					' for sepcDimension width'
 			);
-		} else if (height === null) {
+		} else if (height === undefined) {
 			height = 'auto';
 			console.error(
 				new Error(errorMessageHandler.noDimHeightDefined) +
 					' for sepcDimension height'
 			);
-		} else if (width === null) {
+		} else if (width === undefined) {
 			width = 'auto';
 			console.error(
 				new Error(errorMessageHandler.noDimWidthDefined) + ' for sepcDimension'
@@ -161,7 +169,7 @@ class marginClass {
 	// Example: sepcMargin('exampleDiv', '10px', 'bottom')
 	// Example: sepcMargin('exampleDiv', '10px') - applies to all sides
 
-	constructor(element, mrgn = undefined, side = null) {
+	constructor(element, mrgn = undefined, side = undefined) {
 		this.element = element;
 		this.mrgn = mrgn;
 		this.side = side;
@@ -179,7 +187,7 @@ class marginClass {
 			mrgn = 0;
 		}
 		const elements = document.getElementsByClassName(element);
-		if (side === null) {
+		if (side === undefined) {
 			for (const element of elements) {
 				element.style.margin = mrgn;
 			}
@@ -199,7 +207,7 @@ class paddingClass {
 	// Example: sepcPadding('exampleDiv', '10px', 'top')
 	// Example: sepcPadding('exampleDiv', '10px', 'bottom')
 	// Example: sepcPadding('exampleDiv', '10px') - applies to all sides
-	constructor(element, pdng = undefined, side = null) {
+	constructor(element, pdng = undefined, side = undefined) {
 		this.element = element;
 		this.pdng = pdng;
 		this.side = side;
@@ -218,7 +226,7 @@ class paddingClass {
 		}
 		const elements = document.getElementsByClassName(element);
 		// negative padding will revert to 0px
-		if (side === null) {
+		if (side === undefined) {
 			for (const element of elements) {
 				element.style.padding = pdng;
 			}
@@ -312,7 +320,12 @@ class borderClass {
 	// Example: sepcBorder('exampleDiv', '5px', 'dotted')
 	// Example: sepcBorder('exampleDiv', '1px', 'double')
 
-	constructor(element, size = undefined, color = null, lineStyle = null) {
+	constructor(
+		element,
+		size = undefined,
+		color = undefined,
+		lineStyle = undefined
+	) {
 		this.element = element;
 		this.size = size;
 		this.color = color;
@@ -326,12 +339,12 @@ class borderClass {
 			console.error(new Error(errorMessageHandler.invalidBorderSize));
 		}
 		//  border cannot be withour a color
-		if (color === null) {
+		if (color === undefined) {
 			console.error(new Error(errorMessageHandler.noBorderColorDefined));
 			color = '#000000';
 		}
 		//  border cannot be withour a line style
-		if (lineStyle === null) {
+		if (lineStyle === undefined) {
 			console.warn(
 				sepcWarnTag + errorMessageHandler.warningMessages.noLineStyleDefined
 			);
@@ -340,6 +353,59 @@ class borderClass {
 		const elements = document.getElementsByClassName(element);
 		for (const element of elements) {
 			element.style.border = `${size} ${lineStyle} ${color}`;
+		}
+	}
+}
+
+class outlineClass {
+	//  outlineClass is used to set basic outline parameters for the element
+	// the parameters passed in have to be element class name, and ouline size represented in px, rem, em, etc.
+	// If no border size is defined then it will default to 1px and will output an error to the console
+	// If no line style is defined then it will default to solid and will output an error to the console
+	// If no color is defined then it will default to black and will output an error to the console
+	// Entering ""element", "default" will set the outline to the default outline of "1px solid #000000"
+	// Default format: sepcOutline('element', "default")
+	// Format: sepcBorder(element, size, style)
+	// Example: sepcBorder('exampleDiv', '2px', 'solid')
+	// Example: sepcBorder('exampleDiv', '3px', 'dashed')
+	// Example: sepcBorder('exampleDiv', '5px', 'dotted')
+	// Example: sepcBorder('exampleDiv', '1px', 'double')
+	constructor(
+		element,
+		size = undefined,
+		color = undefined,
+		lineStyle = undefined
+	) {
+		this.element = element;
+		this.size = size;
+		this.color = color;
+		this.lineStyle = lineStyle;
+		if (size === undefined) {
+			console.error(new Error(errorMessageHandler.noOutlineSizeDefined));
+			size = '1px';
+		} else if (size === 'default') {
+			size = '1px';
+			color = '#000000';
+			lineStyle = 'solid';
+		}
+		//  outline size cannot be less than 0
+		if (size < 0 + 'px') {
+			console.error(new Error(errorMessageHandler.invalidOutlineSize)); // add to handler *
+		}
+		//  outline cannot be withour a color
+		if (color === undefined) {
+			console.error(new Error(errorMessageHandler.noOutlineColorDefined));
+			color = '#000000';
+		}
+		if (lineStyle === undefined) {
+			console.warn(
+				sepcWarnTag + errorMessageHandler.warningMessages.noOutlineStyleDefined
+			);
+			lineStyle = 'solid';
+		}
+		const elements = document.getElementsByClassName(element);
+		for (const element of elements) {
+			element.style.outline = `${size} ${lineStyle} ${color}`;
 		}
 	}
 }
