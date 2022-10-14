@@ -1,5 +1,9 @@
-// Error message handler
-// object key: value pairs
+/**
+ * @scope {Error and Warning Messages}
+ * @name Error message handler
+ * @type {object}
+ * @description This object contains all the error handling Messages
+ */
 const errorMessageHandler = {
 	noMarginSize: 'S.E.P.C. - sepcMargin: margin size is undefined',
 	noPaddingSize: 'S.E.P.C. - sepcPadding: padding size is undefined',
