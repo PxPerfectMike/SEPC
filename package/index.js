@@ -3,7 +3,8 @@
 const errorMessageHandler = {
 	noMarginSize: 'S.E.P.C. - sepcMargin: margin size is undefined',
 	noPaddingSize: 'S.E.P.C. - sepcPadding: padding size is undefined',
-	noBgColorDefined: 'S.E.P.C. - sepcBackgroundColor: no color defined',
+	noBgColorDefined:
+		'S.E.P.C. - sepcBackgroundColor: no color defined - defaulting to transparent',
 	noColorDefined: 'S.E.P.C. - sepcColor: no color defined',
 	noDimWidthDefined: 'S.E.P.C. - sepcDimension: no width defined',
 	noDimHeightDefined: 'S.E.P.C. - sepcDimension: no height defined',
@@ -50,6 +51,7 @@ const sepcWarnTag = 'S.E.P.C. - ';
 class backgroundColorClass {
 	// backgroundColor sets the background color of an element
 	//  if clr is not defined then it is set to transparent
+	// will also accept the body of the document as an element
 	// Format: sepcBackgroundColor(element, color)
 	// Example: sepcBackgroundColor('exampleDiv', 'red')
 	// Example: sepcBackgroundColor('exampleDiv', '#ff0000')
