@@ -409,3 +409,54 @@ class outlineClass {
 		}
 	}
 }
+
+class textAlignClass {
+	//  textAlignClass is used to set the text alignment for the element
+	// the parameters passed in have to be element class name, and text alignment
+	// if no text alignment is defined then it will default to left and will output an error to the console
+	// text alignment can be left, right, center, justify, initial, and inherit
+	constructor(element, placement = 'default') {
+		this.element = element;
+		this.placement = placement;
+		const elements = document.getElementsByClassName(element);
+		const alignOptions = [
+			'left',
+			'right',
+			'center',
+			'justify',
+			'initial',
+			'inherit',
+		];
+		const invalidOptionsMessage =
+			sepcWarnTag +
+			" sepcTextAlign property '" +
+			placement +
+			"' is invalid. Please use one of the following options: " +
+			alignOptions[0] +
+			', ' +
+			alignOptions[1] +
+			', ' +
+			alignOptions[2] +
+			', ' +
+			alignOptions[3] +
+			', ' +
+			alignOptions[4] +
+			', or ' +
+			alignOptions[5] +
+			". Default set to 'left' until defined.";
+		//  if no placement is defined then it will default to left
+		if (placement === 'default') {
+			console.warn(
+				sepcWarnTag +
+					errorMessageHandler.warningMessages.noTextAlignPlacementDefined
+			);
+			placement = 'left';
+		} else if (!alignOptions.includes(placement)) {
+			console.error(invalidOptionsMessage);
+			placement = 'left';
+		}
+		for (const element of elements) {
+			element.style.textAlign = placement;
+		}
+	}
+}

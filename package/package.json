@@ -1,26 +1,29 @@
 {
-  "name": "sepc",
-  "version": "1.0.0",
-  "description": "S.E.P.C. - Super Easy Programmed CSS | Do you need to change CSS class attributes but you don't want to mess with that pesky CSS, then this is the package for you.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PxPerfectMike/SEPC.git"
-  },
-  "keywords": [
-    "sepc",
-    "style",
-    "css",
-    "programmed",
-    "graphics"
-  ],
-  "author": "Michael Baker",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/PxPerfectMike/SEPC/issues"
-  },
-  "homepage": "https://github.com/PxPerfectMike/SEPC#readme"
+	"name": "sepc",
+	"version": "1.0.0",
+	"description": "S.E.P.C. - Super Easy Programmed CSS | Do you need to change CSS class attributes but you don't want to mess with that pesky CSS, then this is the package for you.",
+	"main": "index.js",
+	"scripts": {
+		"doc": "jsdoc -c jsdoc.json"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/PxPerfectMike/SEPC.git"
+	},
+	"keywords": [
+		"sepc",
+		"style",
+		"css",
+		"programmed",
+		"graphics"
+	],
+	"author": "Michael Baker",
+	"license": "ISC",
+	"devDependencies": {
+		"jsdoc": "^3.6.11"
+	},
+	"bugs": {
+		"url": "https://github.com/PxPerfectMike/SEPC/issues"
+	},
+	"homepage": "https://github.com/PxPerfectMike/SEPC#readme"
 }
