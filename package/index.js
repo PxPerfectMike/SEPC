@@ -740,7 +740,7 @@ function outline(element, width, color, style) {
 }
 
 backgroundColor('test-divs', 'purple');
-color('test-divs', 'white');
+color('test-divs', 'red');
 dimension('test-divs', '400px', '400px');
 border('test-divs', '4px', 'black', 'dashed');
 textAlign('test-divs', 'right');
