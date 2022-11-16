@@ -1,11 +1,15 @@
 {
 	"source": {
+		"name": "sepc",
 		"include": ["index.js"],
 		"includePattern": ".js$",
 		"excludePattern": "(node_modules/|docs)"
 	},
 	"plugins": ["plugins/markdown"],
 	"templates": {
+		"default": {
+			"includeDate": false
+		},
 		"cleverLinks": true,
 		"monospaceLinks": true
 	},

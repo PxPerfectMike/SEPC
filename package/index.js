@@ -25,7 +25,14 @@
  * @property {error} invalidBorderSize - invalid border size: cannot be less than 0
  * @property {error} noBackgroundImageDefined - no image value defined
  * @property {warning} noSizeDefined - no size value defined for minmax size
- *
+ * @property {warning} noRadiusDefined - radius is set to 0px or is not defined. To get rid of this message define a radius
+ * @property {warning} radiusLessThan0 - radius is less than 0px. To get rid of this message define a radius greater than 0px
+ * @property {warning} noLineStyleDefined - no lineStyle defined. To get rid of this message define a lineStyle
+ * @property {warning} noTextAlignPlacementDefined - textAlign placement not defined, defaulting to 'left'. To get rid of this message, define placement parameter
+ * @property {warning} noBackgroundAttachmentDefined - no attachment value defined, defaulting to 'scroll'. To get rid of this message, define attachment parameter
+ * @property {warning} noBackgroundPositionDefined - no position value defined, defaulting to center. To get rid of this message, define position parameter
+ * @property {warning} invalidBackgroundPosition - invalid position value, defaulting to center. To get rid of this message, define valid position parameter
+ * @property {console} noBackgroundRepeatDefined - no repeat value defined, defaulting to 'no-repeat'
  */
 const errorMessageHandler = {
 	noMarginSize: 'S.E.P.C. - sepcMargin: margin size is undefined',
@@ -84,9 +91,8 @@ const errorPrefixTag = 'S.E.P.C. - ';
 //  or have it do something like import [name of class] as x and then it can be sepcBackgroundColor(x, "red") or something
 
 /**
- * @name backgroundColorClass
  * @type {class}
- * @class backgroundColorClass
+ * @class The class that creates a background color object
  * @description constructs the background color object for the designated element's HTML class and sets the background color
  * @exception {error} noBgColorDefined - No background color defined, defaulting to transparent
  */
