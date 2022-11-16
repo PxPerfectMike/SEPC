@@ -1,8 +1,31 @@
 /**
- * @scope {Error and Warning Messages}
- * @name Error message handler
+ * @file index.js is the root file for S.E.P.C. (Super Easy Programmed CSS)
+ * @author Michael Baker
+ * {@link https://www.michaelbakerportfolio.com (Personal Portfolio)}
+ * @copyright 2022
+ * @version 1.0.0
+ */
+
+/**
+ * Error Message Handler
+ * @name errorMessageHandler
  * @type {object}
- * @description This object contains all the error handling Messages
+ * @description Contains all error handler Messages
+ * @property {error} noMarginSize - margin size is undefined
+ * @property {error} noPaddingSize - padding size is undefined
+ * @property {error} noBgColorDefined - No background color defined, defaulting to transparent
+ * @property {error} noColorDefined - No color defined
+ * @property {error} noDimWidthDefined - No width defined
+ * @property {error} noDimHeightDefined - No height defined
+ * @property {error} noDimensionsDefined - no width or height defined
+ * @property {error} noPositionDefined - no position value defined
+ * @property {error} noBorderSizeDefined - no border size defined, defaulting to 1px
+ * @property {error} noOutlineSizeDefined - no outline size defined, defaulting to 1px
+ * @property {error} noBorderTypeDefined - no border type defined, defaulting to solid
+ * @property {error} invalidBorderSize - invalid border size: cannot be less than 0
+ * @property {error} noBackgroundImageDefined - no image value defined
+ * @property {warning} noSizeDefined - no size value defined for minmax size
+ *
  */
 const errorMessageHandler = {
 	noMarginSize: 'S.E.P.C. - sepcMargin: margin size is undefined',
@@ -25,7 +48,7 @@ const errorMessageHandler = {
 	noBackgroundImageDefined:
 		'S.E.P.C. - sepcBackgroundImage: no image value defined',
 	warningMessages: {
-		// noSizeDefined: 'sepcMinMaxSize: no size value defined for minmax size',
+		noSizeDefined: 'sepcMinMaxSize: no size value defined for minmax size',
 		noRadiusDefined:
 			'sepcBorderRadius: radius is set to 0px or is not defined. To get rid of this message define a radius',
 		radiusLessThan0:
@@ -46,26 +69,35 @@ const errorMessageHandler = {
 			"sepcBackgroundRepeat: no repeat value defined, defaulting to 'no-repeat'",
 	},
 };
-// A tag to append to dynamic warnings
-const sepcWarnTag = 'S.E.P.C. - ';
+/**
+ * @name errorPrefixTag
+ * @type {string}
+ * @description A tag that is appended to errors and warnings
+ * @example S.E.P.C. - [error message]
+ * @example S.E.P.C. - [warning message]
+ * @const errorPrefixTag
+ * @default 'S.E.P.C. - '
+ */
+const errorPrefixTag = 'S.E.P.C. - ';
 
 //  create function that sets the class name for all elements so its not necessary to do it manually in every css call
 //  or have it do something like import [name of class] as x and then it can be sepcBackgroundColor(x, "red") or something
 
+/**
+ * @name backgroundColorClass
+ * @type {class}
+ * @class backgroundColorClass
+ * @description constructs the background color object for the designated element's HTML class and sets the background color
+ * @exception {error} noBgColorDefined - No background color defined, defaulting to transparent
+ */
 class backgroundColorClass {
-	// backgroundColor sets the background color of an element
-	//  if clr is not defined then it is set to transparent
-	// will also accept the body of the document as an element
-	// Format: sepcBackgroundColor(element, color)
-	// Example: sepcBackgroundColor('exampleDiv', 'red')
-	// Example: sepcBackgroundColor('exampleDiv', '#ff0000')
-	// Example: sepcBackgroundColor('exampleDiv', 'rgb(255, 0, 0)')
-	// Example: sepcBackgroundColor('exampleDiv', 'rgba(255, 0, 0, 0.5)')
-	// Example: sepcBackgroundColor('exampleDiv', 'hsl(0, 100%, 50%)')
-	// Example: sepcBackgroundColor('exampleDiv', 'hsla(0, 100%, 50%, 0.5)')
-	// Example: sepcBackgroundColor('exampleDiv', 'transparent')
+	/**
+	 * Class to create a background color object
+	 * @param {string} element - The HTML element className
+	 * @param {string} color - The color to set the background to
+	 * @constructor
+	 */
 	constructor(element, clr) {
-		this.element = element;
 		this.clr = clr;
 		//  if clr is not defined then it is set to transparent
 		if (clr === undefined || clr === null) {
@@ -212,13 +244,13 @@ class borderRadiusClass {
 		switch (radius) {
 			case '0px':
 				console.warn(
-					sepcWarnTag + errorMessageHandler.warningMessages.noRadiusDefined
+					errorPrefixTag + errorMessageHandler.warningMessages.noRadiusDefined
 				);
 				radius = '0px';
 				break;
 			case radius < 0 + 'px':
 				console.warn(
-					sepcWarnTag + errorMessageHandler.warningMessages.radiusLessThan0
+					errorPrefixTag + errorMessageHandler.warningMessages.radiusLessThan0
 				);
 				radius = '0px';
 				break;
@@ -282,7 +314,7 @@ class borderClass {
 		//  issue a warning that the linestyle has defaulted to solid and set to solid
 		if (lineStyle === 'default') {
 			console.warn(
-				sepcWarnTag + errorMessageHandler.warningMessages.noLineStyleDefined
+				errorPrefixTag + errorMessageHandler.warningMessages.noLineStyleDefined
 			);
 			lineStyle = 'solid';
 		}
@@ -317,7 +349,8 @@ class outlineClass {
 		//  issue a warning that the linestyle has defaulted to solid and set to solid
 		if (lineStyle === 'default') {
 			console.warn(
-				sepcWarnTag + errorMessageHandler.warningMessages.noOutlineStyleDefined // add to handler *
+				errorPrefixTag +
+					errorMessageHandler.warningMessages.noOutlineStyleDefined // add to handler *
 			);
 			lineStyle = 'solid';
 		}
@@ -346,7 +379,7 @@ class textAlignClass {
 			'inherit',
 		];
 		const invalidOptionsMessage =
-			sepcWarnTag +
+			errorPrefixTag +
 			" sepcTextAlign property '" +
 			placement +
 			"' is invalid. Please use one of the following options: " +
@@ -365,7 +398,7 @@ class textAlignClass {
 		//  if no placement is defined then it will default to left
 		if (placement === 'default') {
 			console.warn(
-				sepcWarnTag +
+				errorPrefixTag +
 					errorMessageHandler.warningMessages.noTextAlignPlacementDefined
 			);
 			placement = 'left';
@@ -415,7 +448,7 @@ class backgroundRepeatClass {
 			'inherit',
 		];
 		const invalidOptionsMessage =
-			sepcWarnTag +
+			errorPrefixTag +
 			" sepcBackgroundRepeat property '" +
 			rpt +
 			"' is invalid. Please use one of the following options: " +
@@ -438,7 +471,7 @@ class backgroundRepeatClass {
 		if (rpt === undefined || rpt === null) {
 			rpt = 'no-repeat';
 			console.log(
-				sepcWarnTag +
+				errorPrefixTag +
 					errorMessageHandler.consoleMessages.noBackgroundRepeatDefined
 			);
 		} else if (!repeatOptions.includes(rpt)) {
@@ -459,7 +492,7 @@ class backgroundAttachmentClass {
 		const elements = document.getElementsByClassName(element);
 		const attOptions = ['fixed', 'scroll', 'local', 'initial', 'inherit'];
 		const invalidOptionsMessage =
-			sepcWarnTag +
+			errorPrefixTag +
 			" backgroundAttachment property '" +
 			att +
 			"' is invalid. Please use one of the following options: " +
@@ -476,7 +509,7 @@ class backgroundAttachmentClass {
 		if (att === 'default') {
 			att = 'scroll';
 			console.warn(
-				sepcWarnTag +
+				errorPrefixTag +
 					errorMessageHandler.warningMessages.noBackgroundAttachmentDefined
 			);
 		} else if (!attOptions.includes(att)) {
@@ -500,7 +533,7 @@ class backgroundPositionClass {
 		const elements = document.getElementsByClassName(element);
 		if (pos === 'default') {
 			console.warn(
-				sepcWarnTag +
+				errorPrefixTag +
 					errorMessageHandler.warningMessages.noBackgroundPositionDefined
 			);
 		}
@@ -538,7 +571,7 @@ class backgroundPositionClass {
 				const invalidPosition = "position property '" + pos + "' is invalid. ";
 				pos = 'center center';
 				console.warn(
-					sepcWarnTag +
+					errorPrefixTag +
 						invalidPosition +
 						errorMessageHandler.warningMessages.invalidBackgroundPosition
 				);
@@ -571,7 +604,7 @@ class minMaxSizeClass {
 		const minOrMaxOptions = ['min', 'max'];
 		const widthOrHeightOptions = ['width', 'height'];
 		const invalidOptionsMessage =
-			sepcWarnTag +
+			errorPrefixTag +
 			// " widthheight property '" +
 			widthOrHeight +
 			"' is invalid. Please use one of the following options: " +
@@ -581,7 +614,7 @@ class minMaxSizeClass {
 			". Default set to 'width' until defined.";
 		if (size === undefined || size === null) {
 			console.warn(
-				sepcWarnTag + errorMessageHandler.warningMessages.noSizeDefined
+				errorPrefixTag + errorMessageHandler.warningMessages.noSizeDefined
 			);
 		}
 		if (!widthOrHeightOptions.includes(widthOrHeight)) {
@@ -589,7 +622,7 @@ class minMaxSizeClass {
 			widthOrHeight = 'width';
 		} else if (!minOrMaxOptions.includes(minOrMax)) {
 			console.error(
-				sepcWarnTag +
+				errorPrefixTag +
 					// " minmax property '" +
 					minOrMax +
 					"' is invalid. Please use one of the following options: " +
@@ -630,7 +663,7 @@ class widthHeightClass {
 		const elements = document.getElementsByClassName(element);
 		const widthOrHeightOptions = ['width', 'height'];
 		const invalidOptionsMessage =
-			sepcWarnTag +
+			errorPrefixTag +
 			// " widthheight property '" +
 			widthOrHeight +
 			"' is invalid. Please use one of the following options: " +
@@ -640,7 +673,7 @@ class widthHeightClass {
 			". Default set to 'width' until defined.";
 		if (size === null) {
 			console.warn(
-				sepcWarnTag + errorMessageHandler.warningMessages.noSizeDefined
+				errorPrefixTag + errorMessageHandler.warningMessages.noSizeDefined
 			);
 		}
 		if (!widthOrHeightOptions.includes(widthOrHeight)) {
