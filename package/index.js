@@ -9,7 +9,6 @@
 /**
  * Error Message Handler
  * @name errorMessageHandler
- * @type {object}
  * @description Contains all error handler Messages
  * @property {error} noMarginSize - margin size is undefined
  * @property {error} noPaddingSize - padding size is undefined
@@ -120,15 +119,26 @@ class backgroundColorClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class The class that creates the color object
+ * @description constructs the color object for the designated element's HTML class and sets the color
+ * @exception {error} noColorDefined - No color defined
+ */
 class colorClass {
+	/**
+	 * Class to create a color object
+	 * @param {string} element - The HTML element className
+	 * @param {string} color - The color to set the text to
+	 * @constructor
+	 */
 	constructor(element, clr) {
 		this.element = element;
 		this.clr = clr;
 		//  if no color is input then it will be transparent
 		if (clr === undefined || clr === null) {
 			clr = 'transparent';
-			console.error(new Error(errorMessageHandler.noBgColorDefined));
+			console.error(new Error(errorMessageHandler.noColorDefined));
 		}
 		//  if the body of the document is targeted then it will set the color of that element
 		if (element === 'body') {
@@ -141,10 +151,24 @@ class colorClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Sets basic size parameters for the targeted element
+ * @description constructs the dimension object for the designated element's HTML class and sets the width and height
+ * @exception {error} noDimensionsDefined - No dimensions defined
+ * @exception {error} noDimHeightDefined - No height defined
+ * @exception {error} noDimWidthDefined - No width defined
+ */
 class dimensionClass {
 	//  dimensionClass is used to set basic size parameters for the element
 	// the parameters passed in have to be element class name, width, and height
+	/**
+	 * Class to create a dimension object
+	 * @param {string} element - The HTML element className
+	 * @param {string} width - The width of the element
+	 * @param {string} height - The height of the element
+	 * @constructor
+	 */
 	constructor(element, width, height) {
 		this.element = element;
 		this.width = width;
@@ -171,10 +195,22 @@ class dimensionClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Sets margin parameters for the targeted element
+ * @description constructs the margin object for the designated element's HTML class and sets the margin
+ * @exception {error} noMarginSize - No margin size defined
+ */
 class marginClass {
 	//  marginClass is used to set basic margin parameters for the element
 	// the parameters passed in have to be element class name, size, and which side to apply it to
+	/**
+	 *
+	 * @param {string} element
+	 * @param {string} mrgn
+	 * @param {string} side
+	 * @constructor
+	 */
 	constructor(element, mrgn, side) {
 		this.element = element;
 		this.mrgn = mrgn;
@@ -200,10 +236,22 @@ class marginClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Sets padding parameters for the targeted element
+ * @description constructs the padding object for the designated element's HTML class and sets the padding
+ * @exception {error} noPaddingSize - No padding size defined
+ */
 class paddingClass {
 	//  paddingClass is used to set basic margin parameters for the element
 	// the parameters passed in have to be element class name, size, and which side to apply it to
+	/**
+	 * Class to create a padding object
+	 * @param {string} element - The HTML element className
+	 * @param {string} pdng - The padding size
+	 * @param {string} side - The side of the element to apply the padding to
+	 * @constructor
+	 */
 	constructor(element, pdng, side) {
 		this.element = element;
 		this.pdng = pdng;
