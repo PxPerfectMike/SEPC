@@ -94,6 +94,10 @@ const errorPrefixTag = 'S.E.P.C. - ';
  * @class The class that creates a background color object
  * @description constructs the background color object for the designated element's HTML class and sets the background color
  * @exception {error} noBgColorDefined - No background color defined, defaulting to transparent
+ * @example sepcBackgroundColor("myClass", "red")
+ * @example sepcBackgroundColor("myClass", "rgb(255, 0, 0)")
+ * @example sepcBackgroundColor("myClass", "#f5c4a1")
+ * "body" can be used to target the body of the document
  */
 class backgroundColorClass {
 	/**
@@ -124,6 +128,7 @@ class backgroundColorClass {
  * @class The class that creates the color object
  * @description constructs the color object for the designated element's HTML class and sets the color
  * @exception {error} noColorDefined - No color defined
+ * "body" can be used to target the body of the document
  */
 class colorClass {
 	/**
@@ -198,6 +203,7 @@ class dimensionClass {
 /**
  * @type {class}
  * @class Sets margin parameters for the targeted element
+ * The side
  * @description constructs the margin object for the designated element's HTML class and sets the margin
  * @exception {error} noMarginSize - No margin size defined
  */
@@ -206,9 +212,13 @@ class marginClass {
 	// the parameters passed in have to be element class name, size, and which side to apply it to
 	/**
 	 *
-	 * @param {string} element
-	 * @param {string} mrgn
-	 * @param {string} side
+	 * @param {string} element - The HTML element className
+	 * @param {string} mrgn - The size of the margin
+	 * @param {string} side - The side of the element to apply the margin to
+	 * @example sepcMargin('element', '10px', 'top')
+	 *
+	 * The "side" argument accepts top, bottom, left, and right.
+	 * When the "side" agument is omitted, the margin will apply to all sides of the designated element.
 	 * @constructor
 	 */
 	constructor(element, mrgn, side) {
@@ -278,7 +288,12 @@ class paddingClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Sets border radius parameters for the targeted element
+ * @description constructs the border radius object for the designated element's HTML class and sets the border radius
+ * @exception {error} noBorderRadiusSize - No border radius size defined
+ */
 class borderRadiusClass {
 	//  borderRadiusClass is used to set basic border radius parameters for the element
 	// the parameters passed in have to be element class name, and radius size represented in px, rem, em, etc.
