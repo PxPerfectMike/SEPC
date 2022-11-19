@@ -93,10 +93,12 @@ const errorPrefixTag = 'S.E.P.C. - ';
  * @type {class}
  * @class The class that creates a background color object
  * @description constructs the background color object for the designated element's HTML class and sets the background color
- * @exception {error} noBgColorDefined - No background color defined, defaulting to transparent
+ * @exception {error} noBgColorDefined
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
  * @example sepcBackgroundColor("myClass", "red")
  * @example sepcBackgroundColor("myClass", "rgb(255, 0, 0)")
  * @example sepcBackgroundColor("myClass", "#f5c4a1")
+ *
  * "body" can be used to target the body of the document
  */
 class backgroundColorClass {
@@ -127,7 +129,8 @@ class backgroundColorClass {
  * @type {class}
  * @class The class that creates the color object
  * @description constructs the color object for the designated element's HTML class and sets the color
- * @exception {error} noColorDefined - No color defined
+ * @exception {error} noColorDefined
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
  * "body" can be used to target the body of the document
  */
 class colorClass {
@@ -160,9 +163,10 @@ class colorClass {
  * @type {class}
  * @class Sets basic size parameters for the targeted element
  * @description constructs the dimension object for the designated element's HTML class and sets the width and height
- * @exception {error} noDimensionsDefined - No dimensions defined
- * @exception {error} noDimHeightDefined - No height defined
- * @exception {error} noDimWidthDefined - No width defined
+ * @exception {error} noDimensionsDefined
+ * @exception {error} noDimHeightDefined
+ * @exception {error} noDimWidthDefined
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
  */
 class dimensionClass {
 	//  dimensionClass is used to set basic size parameters for the element
@@ -205,7 +209,8 @@ class dimensionClass {
  * @class Sets margin parameters for the targeted element
  * The side
  * @description constructs the margin object for the designated element's HTML class and sets the margin
- * @exception {error} noMarginSize - No margin size defined
+ * @exception {error} noMarginSize
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
  */
 class marginClass {
 	//  marginClass is used to set basic margin parameters for the element
@@ -213,17 +218,15 @@ class marginClass {
 	/**
 	 *
 	 * @param {string} element - The HTML element className
-	 * @param {string} mrgn - The size of the margin
-	 * @param {string} side - The side of the element to apply the margin to
+	 * @param {string} size - The size of the margin
+	 * @param {string} side - [optional] "left", "right", "top", "bottom"
+	 * If the side parameter is empty then it will apply the margin to all sides
 	 * @example sepcMargin('element', '10px', 'top')
-	 *
-	 * The "side" argument accepts top, bottom, left, and right.
-	 * When the "side" agument is omitted, the margin will apply to all sides of the designated element.
 	 * @constructor
 	 */
-	constructor(element, mrgn, side) {
+	constructor(element, size, side) {
 		this.element = element;
-		this.mrgn = mrgn;
+		this.size = size;
 		this.side = side;
 		const sideOptions = {
 			top: 'marginTop',
@@ -231,17 +234,17 @@ class marginClass {
 			left: 'marginLeft',
 			right: 'marginRight',
 		};
-		if (mrgn === undefined || mrgn === null) {
+		if (size === undefined || size === null) {
 			console.log(new Error(errorMessageHandler.noMarginSize));
 		}
 		const elements = document.getElementsByClassName(element);
 		if (side === undefined || side === null) {
 			for (const element of elements) {
-				element.style.margin = mrgn;
+				element.style.margin = size;
 			}
 		} else {
 			for (const element of elements) {
-				element.style[sideOptions[side]] = mrgn;
+				element.style[sideOptions[side]] = size;
 			}
 		}
 	}
@@ -250,7 +253,8 @@ class marginClass {
  * @type {class}
  * @class Sets padding parameters for the targeted element
  * @description constructs the padding object for the designated element's HTML class and sets the padding
- * @exception {error} noPaddingSize - No padding size defined
+ * @exception {error} noPaddingSize
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
  */
 class paddingClass {
 	//  paddingClass is used to set basic margin parameters for the element
@@ -258,13 +262,13 @@ class paddingClass {
 	/**
 	 * Class to create a padding object
 	 * @param {string} element - The HTML element className
-	 * @param {string} pdng - The padding size
+	 * @param {string} size - The padding size
 	 * @param {string} side - The side of the element to apply the padding to
 	 * @constructor
 	 */
-	constructor(element, pdng, side) {
+	constructor(element, size, side) {
 		this.element = element;
-		this.pdng = pdng;
+		this.size = size;
 		this.side = side;
 		const sideOptions = {
 			top: 'paddingTop',
@@ -272,18 +276,18 @@ class paddingClass {
 			left: 'paddingLeft',
 			right: 'paddingRight',
 		};
-		if (pdng === undefined || pdng === null) {
+		if (size === undefined || size === null) {
 			console.log(new Error(errorMessageHandler.noPaddingSize));
 		}
 		const elements = document.getElementsByClassName(element);
 		// negative padding will revert to 0px
 		if (side === undefined || side === null) {
 			for (const element of elements) {
-				element.style.padding = pdng;
+				element.style.padding = size;
 			}
 		} else {
 			for (const element of elements) {
-				element.style[sideOptions[side]] = pdng;
+				element.style[sideOptions[side]] = size;
 			}
 		}
 	}
@@ -292,7 +296,8 @@ class paddingClass {
  * @type {class}
  * @class Sets border radius parameters for the targeted element
  * @description constructs the border radius object for the designated element's HTML class and sets the border radius
- * @exception {error} noBorderRadiusSize - No border radius size defined
+ * @exception {error} noBorderRadiusSize
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
  */
 class borderRadiusClass {
 	//  borderRadiusClass is used to set basic border radius parameters for the element
@@ -309,7 +314,7 @@ class borderRadiusClass {
 	//rounded-2xl adds a 19px border radius
 	/**
 	 * @param {string} element - The HTML element className
-	 * @param {string} radius - The border radius size
+	 * @param {string} radius - [optional]
 	 * The border radius size will default to 0px if no size is defined and will display a warning in the console
 	 * @constructor
 	 */
@@ -367,10 +372,11 @@ class borderRadiusClass {
  * @type {class}
  * @class Sets border parameters for the targeted element
  * @description constructs the border object for the designated element's HTML class and sets the border parameters
- * @exception {error} noBorderSizeDefined - No border size defined
- * @exception {error} invalidBorderSize - Invalid border size
- * @exception {error} noBorderColorDefined - No border type defined
- * @exception {warning} noLineStyleDefined - No line style defined
+ * @exception {error} noBorderSizeDefined
+ * @exception {error} invalidBorderSize
+ * @exception {error} noBorderColorDefined
+ * @exception {warning} noLineStyleDefined
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
  */
 class borderClass {
 	//  borderClass is used to set basic border parameters for the element
@@ -419,11 +425,12 @@ class borderClass {
  * @type {class}
  * @class Sets outline parameters for the targeted element
  * @description constructs the outline object for the designated element's HTML class and sets the outline parameters
- * @exception {error} noOutlineSizeDefined - No outline size defined
- * @exception {error} invalidOutlineSize - Invalid outline size
- * @exception {error} noOutlineColorDefined - No outline type defined
- * @exception {warning} noOutlineStyleDefined - No line style defined
- * @exception {warning} noOutlineOffsetDefined - No outline offset defined
+ * @exception {error} noOutlineSizeDefined
+ * @exception {error} invalidOutlineSize
+ * @exception {error} noOutlineColorDefined
+ * @exception {warning} noOutlineStyleDefined
+ * @exception {warning} [warning] - noOutlineOffsetDefined
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
  */
 class outlineClass {
 	//  outlineClass is used to set basic outline parameters for the element
@@ -472,9 +479,10 @@ class outlineClass {
 }
 /**
  * @type {class}
- * @class Sets textAlign parameters for the targeted element
+ * @class Designates text-align (textAlign) parameters for the targeted element
  * @description constructs the textAlign object for the designated element's HTML class and sets the textAlign parameters
- * @throws {warning} noTextPlacementDefined
+ * @exception {warning} noTextAlignPlacementDefined
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
  *
  * Error and warning descriptions: {@link errorMessageHandler}
  */
@@ -533,9 +541,21 @@ class textAlignClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Designates background-image (backgroundImage) parameters for the targeted element
+ * @description constructs the backgroundImage object for the designated element's HTML class and sets the backgroundImage parameters
+ * @exception {error} noBackgroundImageDefined
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
+ */
 class backgroundImageClass {
 	//  take care of gradient and image distinction in functional function code later... manual url() distinction or designate type in constructor?
+	/**
+	 *
+	 * @param {string} element - The HTML element className
+	 * @param {string} image - image url to be applied to the background
+	 * @constructor
+	 */
 	constructor(element, image) {
 		this.element = element;
 		this.image = image;
@@ -549,7 +569,13 @@ class backgroundImageClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Designates background-repeat (backgroundRepeat) parameters for the targeted element
+ * @description constructs the backgroundRepeat object for the designated element's HTML class and sets the backgroundRepeat parameters
+ * @exception {warning} noBackgroundRepeatDefined
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
+ */
 class backgroundRepeatClass {
 	//  backgroundRepeatClass is used to set the background repeat for the element
 	// the parameters passed in have to be element class name, and background repeat option
@@ -604,51 +630,80 @@ class backgroundRepeatClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Designates background-size (backgroundSize) parameters for the targeted element
+ * @description constructs the backgroundSize object for the designated element's HTML class and sets the backgroundSize parameters
+ * @exception {warning} noBackgroundSizeDefined
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
+ */
 class backgroundAttachmentClass {
 	// The backgroundAttachmentClass sets whether a background image scrolls with the rest of the page, or is fixed.
 	// can be called without attachment argument to set to default - fixed, but it will throw an error in the console
-	constructor(element, att = 'default') {
+	/**
+	 * @param {string} element - The HTML element className
+	 * @param {string} attachment - The background attachment option
+	 * @constructor
+	 */
+	constructor(element, attachment = 'default') {
 		this.element = element;
-		this.att = att;
+		this.attachment = attachment;
 		const elements = document.getElementsByClassName(element);
-		const attOptions = ['fixed', 'scroll', 'local', 'initial', 'inherit'];
+		const attachmentOptions = [
+			'fixed',
+			'scroll',
+			'local',
+			'initial',
+			'inherit',
+		];
 		const invalidOptionsMessage =
 			errorPrefixTag +
 			" backgroundAttachment property '" +
-			att +
+			attachment +
 			"' is invalid. Please use one of the following options: " +
-			attOptions[0] +
+			attachmentOptions[0] +
 			', ' +
-			attOptions[1] +
+			attachmentOptions[1] +
 			', ' +
-			attOptions[2] +
+			attachmentOptions[2] +
 			', ' +
-			attOptions[3] +
+			attachmentOptions[3] +
 			', or ' +
-			attOptions[4] +
+			attachmentOptions[4] +
 			'. Default set to scroll until defined.';
-		if (att === 'default') {
-			att = 'scroll';
+		if (attachment === 'default') {
+			attachment = 'scroll';
 			console.warn(
 				errorPrefixTag +
 					errorMessageHandler.warningMessages.noBackgroundAttachmentDefined
 			);
-		} else if (!attOptions.includes(att)) {
+		} else if (!attachmentOptions.includes(attachment)) {
 			console.error(invalidOptionsMessage);
-			att = 'scroll';
+			attachment = 'scroll';
 		}
 		for (const element of elements) {
-			element.style.backgroundAttachment = att;
+			element.style.backgroundAttachment = attachment;
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Designates background-position (backgroundPosition) parameters for the targeted element
+ * @description constructs the backgroundPosition object for the designated element's HTML class and sets the backgroundPosition parameters
+ * @exception {warning} noBackgroundPositionDefined
+ * @exception {warning} invalidBackgroundPosition
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
+ */
 class backgroundPositionClass {
 	// The backgroundPositionClass sets the starting position of a background image.
 	// can call without pos argument to set to center
 	// the position argument can be center, topLeft, topCenter, topRight, centerLeft, centerRight, bottomLeft, bottomCenter, or bottomRight
 	// it also accepts custom positions in the form of 'x y' where x and y are numbers or percentages in the same format
+	/**
+	 * @param {string} element - The HTML element className
+	 * @param {string} position - The background position option
+	 * @constructor
+	 */
 	constructor(element, pos = 'default') {
 		this.element = element;
 		this.pos = pos;
@@ -704,13 +759,27 @@ class backgroundPositionClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Designates minimum or maximum width or height parameters for the targeted element
+ * @description Constucts the minimum or maximun width or height object for the designated element's HTML class and sets the minimum or maximum width or height parameters
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
+ * @exception {error} noSizeDefined
+ * @exception {error} invalidSize
+ */
 class minMaxSizeClass {
 	// the minMaxSizeClass sets the minimum or maximum width or height of an element
 	// if there is no min or max distinction for the minmax argument it defaults to min
 	// if no size argument is given is defaults to null and will throw a warning in the console
 	// Format: minMaxSize(element, min or max, size)
 	// Example: minMaxSize('myElement', 'min', '100px')
+	/**
+	 * @param {string} element - The HTML element className
+	 * @param {string} minOrMax - The minimum or maximum option
+	 * @param {string} widthOrHeight - Designate width or height
+	 * @param {string} size - The minimum or maximum size
+	 * @constructor
+	 */
 	constructor(
 		element,
 		minOrMax = 'min',
@@ -773,7 +842,9 @@ class minMaxSizeClass {
 		}
 	}
 }
-
+/**
+ * @throws {handler} [Click here for full error message list]{@link errorMessageHandler}
+ */
 class widthHeightClass {
 	// the widthHeightClass sets the width or height of an element
 	// if no width or height argument is given is defaults to width

@@ -1,3 +1,12 @@
+ul {
+	list-style-type: none;
+	padding-inline-start: 0;
+}
+
+.errorList p {
+	margin: 0.5em 0;
+}
+
 @font-face {
 	font-family: 'Open Sans';
 	font-weight: normal;
