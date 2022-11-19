@@ -307,6 +307,12 @@ class borderRadiusClass {
 	//rounded-lg adds a 10px border radius
 	//rounded-xl adds a 15px border radius
 	//rounded-2xl adds a 19px border radius
+	/**
+	 * @param {string} element - The HTML element className
+	 * @param {string} radius - The border radius size
+	 * The border radius size will default to 0px if no size is defined and will display a warning in the console
+	 * @constructor
+	 */
 	constructor(element, radius = '0px') {
 		this.element = element;
 		this.radius = radius;
@@ -357,12 +363,28 @@ class borderRadiusClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Sets border parameters for the targeted element
+ * @description constructs the border object for the designated element's HTML class and sets the border parameters
+ * @exception {error} noBorderSizeDefined - No border size defined
+ * @exception {error} invalidBorderSize - Invalid border size
+ * @exception {error} noBorderColorDefined - No border type defined
+ * @exception {warning} noLineStyleDefined - No line style defined
+ */
 class borderClass {
 	//  borderClass is used to set basic border parameters for the element
 	// the parameters passed in have to be element class name, and border size represented in px, rem, em, etc.
 	// if no border size is defined then it will default to 1px and will output an error to the console
 	// If no line style is defined then it will default to solid and will output an error to the console
+	/**
+	 *
+	 * @param {string} element - The HTML element className
+	 * @param {string} size - The border size
+	 * @param {string} color - The border color
+	 * @param {string} lineStyle - The border line style
+	 * @constructor
+	 */
 	constructor(element, size, color, lineStyle = 'default') {
 		this.element = element;
 		this.size = size;
@@ -393,11 +415,30 @@ class borderClass {
 		}
 	}
 }
+/**
+ * @type {class}
+ * @class Sets outline parameters for the targeted element
+ * @description constructs the outline object for the designated element's HTML class and sets the outline parameters
+ * @exception {error} noOutlineSizeDefined - No outline size defined
+ * @exception {error} invalidOutlineSize - Invalid outline size
+ * @exception {error} noOutlineColorDefined - No outline type defined
+ * @exception {warning} noOutlineStyleDefined - No line style defined
+ * @exception {warning} noOutlineOffsetDefined - No outline offset defined
+ */
 class outlineClass {
 	//  outlineClass is used to set basic outline parameters for the element
 	// the parameters passed in have to be element class name, and outline size represented in px, rem, em, etc., then color, and then line style
 	// if no outline size is defined then it will default to 1px and will output an error to the console
 	// if no linestyle is defined then it will default to solid
+
+	/**
+	 * @param {string} element - The HTML element className
+	 * @param {string} size - The outline size
+	 * @param {string} color - The outline color
+	 * @param {string} lineStyle - The outline line style
+	 * The linestyle argument will default to solid if no argument is given
+	 * @constructor
+	 */
 	constructor(element, size, color, lineStyle = 'default') {
 		this.element = element;
 		this.size = size;
@@ -429,12 +470,24 @@ class outlineClass {
 		}
 	}
 }
-
+/**
+ * @type {class}
+ * @class Sets textAlign parameters for the targeted element
+ * @description constructs the textAlign object for the designated element's HTML class and sets the textAlign parameters
+ * @throws {warning} noTextPlacementDefined
+ *
+ * Error and warning descriptions: {@link errorMessageHandler}
+ */
 class textAlignClass {
 	//  textAlignClass is used to set the text alignment for the element
 	// the parameters passed in have to be element class name, and text alignment
 	// if no text alignment is defined then it will default to left and will output an error to the console
 	// text alignment can be left, right, center, justify, initial, and inherit
+	/**
+	 * @param {string} element - The HTML element className
+	 * @param {string} placement - The text placement parameter
+	 * @constructor
+	 */
 	constructor(element, placement = 'default') {
 		this.element = element;
 		this.placement = placement;

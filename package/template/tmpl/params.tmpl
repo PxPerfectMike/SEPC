@@ -69,10 +69,8 @@
         <?js if (params.hasAttributes) {?>
         <th>Attributes</th>
         <?js } ?>
-
-        <?js if (params.hasDefault) {?>
-        <th>Default</th>
-        <?js } ?>
+    
+        
 
         <th class="last">Description</th>
     </tr>
@@ -112,13 +110,7 @@
                 </td>
             <?js } ?>
 
-            <?js if (params.hasDefault) {?>
-                <td class="default">
-                <?js if (typeof param.defaultvalue !== 'undefined') { ?>
-                    <?js= self.htmlsafe(param.defaultvalue) ?>
-                <?js } ?>
-                </td>
-            <?js } ?>
+            
 
             <td class="description last"><?js= param.description ?><?js if (param.subparams) { ?>
                 <h6>Properties</h6>
