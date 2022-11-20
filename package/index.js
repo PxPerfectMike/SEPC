@@ -106,23 +106,23 @@ class backgroundColorClass {
 	/**
 	 * Class to create a background color object
 	 * @param {string} element - The HTML element className
-	 * @param {string} color - The color to set the background to
+	 * @param {string} hue - The color to set the background to
 	 * @constructor
 	 */
-	constructor(element, clr) {
-		this.clr = clr;
-		//  if clr is not defined then it is set to transparent
-		if (clr === undefined || clr === null) {
-			clr = 'transparent';
+	constructor(element, hue) {
+		this.hue = hue;
+		//  if hue is not defined then it is set to transparent
+		if (hue === undefined || hue === null) {
+			hue = 'transparent';
 			console.error(new Error(errorMessageHandler.noBgColorDefined));
 		}
 		//  if the body of the document is targeted then it will set the background color of that element
 		if (element === 'body') {
-			document.body.style.backgroundColor = clr;
+			document.body.style.backgroundColor = hue;
 		}
 		const elements = document.getElementsByClassName(element);
 		for (const element of elements) {
-			element.style.backgroundColor = clr;
+			element.style.backgroundColor = hue;
 		}
 	}
 }
@@ -145,21 +145,21 @@ class colorClass {
 	 * @param {string} color - The color to set the text to
 	 * @constructor
 	 */
-	constructor(element, clr) {
+	constructor(element, hue) {
 		this.element = element;
-		this.clr = clr;
+		this.hue = hue;
 		//  if no color is input then it will be transparent
-		if (clr === undefined || clr === null) {
-			clr = 'transparent';
+		if (hue === undefined || hue === null) {
+			hue = 'transparent';
 			console.error(new Error(errorMessageHandler.noColorDefined));
 		}
 		//  if the body of the document is targeted then it will set the color of that element
 		if (element === 'body') {
-			document.body.style.color = clr;
+			document.body.style.color = hue;
 		} else {
 			const elements = document.getElementsByClassName(element);
 			for (const element of elements) {
-				element.style.color = clr;
+				element.style.color = hue;
 			}
 		}
 	}
@@ -945,15 +945,16 @@ class widthHeightClass {
 // document.body.appendChild(document.createElement('script').text = );
 
 /**
- * @type {function}
- * @function Creates a new element
+ * @function
+ * @param {string} element - The HTML element className
+ * @param {string} hue - The color of the background
  */
-function backgroundColor(element, clr) {
-	return new backgroundColorClass(element, clr);
+function backgroundColor(element, hue) {
+	return new backgroundColorClass(element, hue);
 }
 
-function color(element, clr) {
-	return new colorClass(element, clr);
+function color(element, hue) {
+	return new colorClass(element, hue);
 }
 
 function dimension(element, width, height) {
