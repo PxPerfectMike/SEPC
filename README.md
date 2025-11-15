@@ -1,6 +1,6 @@
 # SEPC v2.0 - Super Easy Programmed CSS
 
-[![npm version](https://img.shields.io/npm/v/sepc.svg)](https://www.npmjs.com/package/sepc)
+[![npm version](https://img.shields.io/npm/v/@pxperfectmike/sepc.svg)](https://www.npmjs.com/package/@pxperfectmike/sepc)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
@@ -39,13 +39,13 @@ SEPC is designed for **specific use cases** where programmatic CSS manipulation 
 ### Installation
 
 ```bash
-npm install sepc
+npm install @pxperfectmike/sepc
 ```
 
 ### Basic Usage
 
 ```typescript
-import { backgroundColor, color, margin, padding } from 'sepc'
+import { backgroundColor, color, margin, padding } from '@pxperfectmike/sepc'
 
 // Style elements by class name
 backgroundColor('my-element', '#4a90e2')
@@ -202,7 +202,7 @@ Supported alignments: `'left'`, `'right'`, `'center'`, `'justify'`, `'start'`, `
 
 ```typescript
 // WordPress plugin that styles dynamically inserted elements
-import { backgroundColor, padding, borderRadius } from 'sepc'
+import { backgroundColor, padding, borderRadius } from '@pxperfectmike/sepc'
 
 function initializePlugin() {
   // Can't modify theme CSS, but can style our plugin elements
@@ -216,7 +216,7 @@ function initializePlugin() {
 
 ```typescript
 // Adding dark mode to a legacy app without touching CSS files
-import { backgroundColor, color } from 'sepc'
+import { backgroundColor, color } from '@pxperfectmike/sepc'
 
 function enableDarkMode() {
   backgroundColor('body', '#1a1a1a')
@@ -230,7 +230,7 @@ function enableDarkMode() {
 
 ```typescript
 // Chat widget that injects into any website
-import { dimension, backgroundColor, borderRadius, padding } from 'sepc'
+import { dimension, backgroundColor, borderRadius, padding } from '@pxperfectmike/sepc'
 
 function initChatWidget() {
   const widgetClass = 'my-chat-widget-container'
@@ -247,7 +247,7 @@ function initChatWidget() {
 SEPC is written in TypeScript and provides full type definitions:
 
 ```typescript
-import type { CSSColor, BorderRadiusPreset, TextAlign } from 'sepc'
+import type { CSSColor, BorderRadiusPreset, TextAlign } from '@pxperfectmike/sepc'
 
 // TypeScript will provide autocomplete and type checking
 const myColor: CSSColor = '#4a90e2'
@@ -295,7 +295,7 @@ ISC © Michael Baker
 ## 🔗 Links
 
 - [GitHub Repository](https://github.com/PxPerfectMike/SEPC)
-- [npm Package](https://www.npmjs.com/package/sepc)
+- [npm Package](https://www.npmjs.com/package/@pxperfectmike/sepc)
 - [Issues & Bug Reports](https://github.com/PxPerfectMike/SEPC/issues)
 
 ---

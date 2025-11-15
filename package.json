@@ -1,5 +1,5 @@
 {
-  "name": "sepc",
+  "name": "@pxperfectmike/sepc",
   "version": "2.0.0",
   "description": "Super Easy Programmed CSS - A pragmatic JavaScript library for programmatic CSS manipulation in plugin systems, legacy applications, and rapid prototyping",
   "type": "module",
