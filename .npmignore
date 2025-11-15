@@ -1,0 +1,29 @@
+# Source files
+src/
+tests/
+playground/
+
+# Config files
+tsconfig.json
+tsup.config.ts
+vite.config.ts
+vitest.config.ts
+
+# Documentation source
+typedoc.json
+
+# Development
+.git/
+.github/
+.claude/
+node_modules/
+
+# Build artifacts
+dist-playground/
+coverage/
+
+# Misc
+*.log
+.DS_Store
+.env
+.env.local
